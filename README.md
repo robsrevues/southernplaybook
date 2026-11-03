@@ -38,4 +38,5 @@ Everything animates with CSS; JS only toggles classes. All motion respects `pref
 - [ ] Real inbox (currently `hello@southernplaybook.com` in `index.astro`)
 - [ ] Final secondary font + accent
 - [ ] `og:image` social card
+- [ ] Replace FPO slots with real photos: pass `src` + `alt` to `<Fpo>` (labels describe each shot)
 - [ ] Hosting (Netlify, Vercel or Cloudflare Pages all work — point the build at `dist/`)

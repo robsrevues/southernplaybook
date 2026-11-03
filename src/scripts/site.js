@@ -22,6 +22,41 @@ if (reduced || !('IntersectionObserver' in window)) {
   revealEls.forEach((el) => io.observe(el));
 }
 
+// Parallax: [data-parallax="0.15"] drifts against its parent as it crosses the viewport.
+// Positive = slower than the page, negative = faster. One rAF per frame, transforms only.
+const layers = [...document.querySelectorAll('[data-parallax]')];
+if (layers.length && !reduced) {
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const vh = window.innerHeight;
+    for (const el of layers) {
+      const box = el.parentElement.getBoundingClientRect();
+      if (box.bottom < -200 || box.top > vh + 200) continue; // off screen
+      const speed = parseFloat(el.dataset.parallax) || 0;
+      const delta = box.top + box.height / 2 - vh / 2; // distance from viewport center
+      const max = box.height * 0.13; // stay inside the overscan so no edge shows
+      const y = Math.max(-max, Math.min(max, -delta * speed));
+      el.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`;
+    }
+  };
+  const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+  update();
+  window.addEventListener('scroll', request, { passive: true });
+  window.addEventListener('resize', request);
+}
+
+// Mobile dock CTA: shows after the hero, hides at the contact section
+const dock = document.querySelector('[data-dock]');
+const hero = document.querySelector('[data-hero]');
+const talk = document.querySelector('#talk');
+if (dock && hero && 'IntersectionObserver' in window) {
+  let pastHero = false, atTalk = false;
+  const sync = () => dock.classList.toggle('is-shown', pastHero && !atTalk);
+  new IntersectionObserver(([e]) => { pastHero = !e.isIntersecting && e.boundingClientRect.top < 0; sync(); }).observe(hero);
+  if (talk) new IntersectionObserver(([e]) => { atTalk = e.isIntersecting; sync(); }, { threshold: 0.2 }).observe(talk);
+}
+
 // Header shadow once scrolled
 const header = document.querySelector('[data-header]');
 if (header) {

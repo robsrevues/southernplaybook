@@ -1,0 +1,78 @@
+---
+/**
+ * FPO (for placement only) image slot.
+ * Swap for a real photo later: pass `src` and `alt`, and the placeholder art disappears.
+ * The inner layer is taller than the frame so it can drift on scroll (data-parallax).
+ */
+interface Props {
+  shot: string;          // what the real photo should be
+  ratio?: string;        // CSS aspect-ratio, e.g. '4 / 5'
+  tone?: 'dark' | 'light';
+  speed?: number;        // parallax strength; 0 turns it off
+  src?: string;
+  alt?: string;
+  class?: string;
+}
+const { shot, ratio = '4 / 3', tone = 'dark', speed = 0.12, src, alt = '', class: cls = '' } = Astro.props;
+---
+<figure class:list={['fpo', `fpo--${tone}`, cls]} style={`aspect-ratio:${ratio}`}>
+  <div class="fpo-layer" data-parallax={speed || undefined} style={`--speed:${speed}`}>
+    {src ? (
+      <img src={src} alt={alt} loading="lazy" decoding="async" />
+    ) : (
+      <div class="fpo-art" aria-hidden="true">
+        <svg class="fpo-icon" viewBox="0 0 48 48"><rect x="5" y="9" width="38" height="30" rx="3" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="17" cy="20" r="4" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M8 35l11-10 8 7 6-5 10 8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      </div>
+    )}
+  </div>
+  {!src && (
+    <figcaption>
+      <span class="chip">FPO</span>
+      <span class="shot">{shot}</span>
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  .fpo {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius);
+    isolation: isolate;
+    --bg-a: #3d3d3b; --bg-b: #2a2a29; --ink: rgb(245 245 242 / 0.6); --hatch: rgb(245 245 242 / 0.06);
+  }
+  .fpo--light { --bg-a: #e6e6e0; --bg-b: #d3d3cc; --ink: rgb(36 36 36 / 0.45); --hatch: rgb(36 36 36 / 0.05); }
+
+  .fpo-layer {
+    position: absolute;
+    inset: -14% 0;               /* extra height to travel through */
+    will-change: transform;
+  }
+  .fpo-layer img { width: 100%; height: 100%; object-fit: cover; }
+
+  .fpo-art {
+    width: 100%; height: 100%;
+    display: grid; place-items: center;
+    color: var(--ink);
+    background:
+      repeating-linear-gradient(-45deg, var(--hatch) 0 2px, transparent 2px 14px),
+      radial-gradient(120% 90% at 30% 20%, var(--bg-a), var(--bg-b));
+  }
+  .fpo-icon { width: clamp(36px, 12%, 64px); height: auto; opacity: 0.8; }
+
+  figcaption {
+    position: absolute; left: 12px; right: 12px; top: 12px;
+    display: flex; align-items: center; gap: 10px;
+    font: 600 12px/1.3 var(--font-label);
+    color: var(--ink);
+    z-index: 1;
+  }
+  .chip {
+    flex: none;
+    padding: 3px 7px; border-radius: 3px;
+    border: 1.5px solid currentColor;
+    letter-spacing: 0.08em; font-weight: 800;
+  }
+  .shot { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+</style>

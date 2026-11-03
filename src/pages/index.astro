@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Lockup from '../components/Lockup.astro';
 import PlayDiagram from '../components/PlayDiagram.astro';
 import Showcase from '../components/Showcase.astro';
+import Fpo from '../components/Fpo.astro';
 
 // TODO: swap for the real inbox once it exists
 const email = 'hello@southernplaybook.com';
@@ -18,25 +19,28 @@ const steps = [
   {
     n: '01',
     name: 'Scouting Report',
+    shot: 'Sit-down over coffee, notebook open',
     body: "We sit down, mostly listen, and look at every part of the business — how leads come in, how jobs get booked, how you follow up, what people say about you online.",
   },
   {
     n: '02',
     name: 'Game Plan',
     body: 'You get Your Playbook: the two or three moves that matter most right now, in plain English, ranked, with a fixed price on each. No 60-page report.',
+    shot: 'Printed playbook pages on a desk, pen marking the top item',
   },
   {
     n: '03',
     name: 'Moving the Chains',
     body: "We build the first fix with you, measure what changes, and line up the next one. You'll see results in weeks, not quarters.",
+    shot: 'Owner smiling at a new booking on their phone',
   },
 ];
 
 const fixes = [
-  { title: 'Win back past customers', body: 'Your old customer list is the fastest money you have. We set up simple texts and emails that bring people back.' },
-  { title: 'Show up every week', body: 'Posts and emails built from your own words and know-how, so they sound like you. You approve, we keep it going.' },
-  { title: 'Answer every lead fast', body: 'Missed calls, slow replies and forms nobody checks cost jobs. We set up follow-up that happens even when you\'re on a job site.' },
-  { title: 'A website that books work', body: 'Fast, clear, and built around the one thing you want visitors to do — call, book, or order.' },
+  { title: 'Win back past customers', shot: 'Text message thread with a returning customer', body: 'Your old customer list is the fastest money you have. We set up simple texts and emails that bring people back.' },
+  { title: 'Show up every week', shot: 'Social post being written from a shop floor', body: 'Posts and emails built from your own words and know-how, so they sound like you. You approve, we keep it going.' },
+  { title: 'Answer every lead fast', shot: 'Missed-call text going out from a job site', body: 'Missed calls, slow replies and forms nobody checks cost jobs. We set up follow-up that happens even when you\'re on a job site.' },
+  { title: 'A website that books work', shot: 'Phone showing a booking confirmation', body: 'Fast, clear, and built around the one thing you want visitors to do — call, book, or order.' },
 ];
 ---
 <Base>
@@ -55,7 +59,7 @@ const fixes = [
 
   <main id="main">
     <!-- HERO -->
-    <section class="hero">
+    <section class="hero" data-hero>
       <div class="wrap hero-grid">
         <div class="hero-copy">
           <p class="label" data-reveal>Madison, MS · Jackson metro</p>
@@ -64,9 +68,7 @@ const fixes = [
             We dig into your business with help from the latest AI tools, find what's slowing you down, and hand you a clear plan to grow faster.
           </p>
           <div class="ctas" data-reveal style="--i:3">
-            <a class="btn" href="#talk">Let's sit down
-              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
+            <a class="btn" href="#talk">Let's sit down <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
             <a class="btn btn--ghost" href="#how">See how it works</a>
           </div>
           <ul class="proof" data-reveal style="--i:4">
@@ -74,7 +76,8 @@ const fixes = [
           </ul>
         </div>
         <div class="hero-art" data-reveal style="--i:2">
-          <PlayDiagram />
+          <Fpo class="hero-photo" shot="Owner at work behind the counter, warm light" ratio="4 / 5" speed={0.18} />
+          <div class="hero-play" data-parallax="-0.08"><PlayDiagram /></div>
         </div>
       </div>
     </section>
@@ -86,11 +89,18 @@ const fixes = [
           <p class="label" data-reveal>What owners tell us</p>
           <h2 data-reveal style="--i:1">You know something needs to change. You don't have time to figure out what.</h2>
         </div>
-        <ul class="quotes">
-          {questions.map((q, i) => (
-            <li data-reveal style={`--i:${i}`}><span aria-hidden="true">“</span>{q}</li>
-          ))}
-        </ul>
+        <div class="hear-grid">
+          <div data-reveal><Fpo shot="Owner on the phone at a busy front desk" ratio="5 / 6" speed={0.14} /></div>
+          <ul class="quotes">
+            {questions.map((q, i) => (
+              <li data-reveal style={`--i:${i}`}><span aria-hidden="true">“</span>{q}</li>
+            ))}
+          </ul>
+        </div>
+        <div class="section-cta" data-reveal>
+          <a class="btn" href="#talk">Tell us what's eating your time <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <span>Bring your questions. We'll mostly listen.</span>
+        </div>
       </div>
     </section>
 
@@ -107,9 +117,23 @@ const fixes = [
               <span class="num">{s.n}</span>
               <h3>{s.name}</h3>
               <p>{s.body}</p>
+              <Fpo shot={s.shot} ratio="4 / 3" speed={0.1} />
             </li>
           ))}
         </ol>
+        <div class="section-cta" data-reveal>
+          <a class="btn" href="#talk">Start with a Scouting Report <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <span>You'll know the price before any work starts.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- BAND -->
+    <section class="band" aria-label="Local businesses">
+      <Fpo class="band-photo" shot="Main street storefronts at dusk, Madison or Ridgeland" ratio="auto" speed={0.3} />
+      <div class="band-copy wrap">
+        <p data-reveal>Built for the businesses that keep this town running.</p>
+        <a class="btn" href="#talk" data-reveal style="--i:1">Let's talk about yours <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
     </section>
 
@@ -124,10 +148,14 @@ const fixes = [
         <div class="cards">
           {fixes.map((f, i) => (
             <article class="card" data-reveal style={`--i:${i}`}>
+              <Fpo shot={f.shot} ratio="16 / 10" speed={0.08} />
               <h3>{f.title}</h3>
               <p>{f.body}</p>
             </article>
           ))}
+        </div>
+        <div class="section-cta" data-reveal>
+          <a class="btn" href="#talk">Find out which fix pays off first <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
     </section>
@@ -141,20 +169,28 @@ const fixes = [
           <p data-reveal style="--i:2">Clean, quick to load, and built to get people to call, book or order.</p>
         </div>
         <div data-reveal style="--i:3"><Showcase /></div>
+        <div class="section-cta" data-reveal>
+          <a class="btn" href="#talk">Get a site like this <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <span>Every site is built around your business, your voice, and the one thing you want visitors to do.</span>
+        </div>
       </div>
     </section>
 
     <!-- WHO -->
     <section class="section who">
       <div class="wrap who-grid">
-        <div>
-          <p class="label" data-reveal>Who you'll sit down with</p>
+        <div class="who-side" data-reveal>
+          <p class="label">Who you'll sit down with</p>
+          <Fpo shot="Portrait of Rob, natural light, local spot" ratio="4 / 5" speed={0.12} />
         </div>
         <div class="who-copy">
           <h2 data-reveal>A neighbor who's spent two decades making complicated things simple.</h2>
           <p data-reveal style="--i:1">
             I'm Rob Armstrong. I've led product design teams at Turner, WarnerMedia and Warner Bros. Discovery, building things millions of people use every day. Now I bring that same work — and today's AI tools — to businesses right here at home. You'll get straight answers, and I'll tell you when something isn't worth your money.
           </p>
+          <div class="ctas" data-reveal style="--i:2">
+            <a class="btn" href="#talk">Grab a coffee with Rob <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
         </div>
       </div>
     </section>
@@ -162,17 +198,21 @@ const fixes = [
     <!-- CTA -->
     <section class="section talk" id="talk">
       <div class="wrap talk-card" data-reveal>
-        <div>
+        <div class="talk-copy">
           <h2>Let's sit down.</h2>
           <p>Coffee's on me. Bring your questions — I'll mostly listen, then tell you the first thing I'd fix.</p>
+          <div class="talk-actions">
+            <a class="btn" href={mailto}>Email {email}</a>
+            <span class="where">Serving Madison, Ridgeland, Flowood, Brandon and the Jackson metro</span>
+          </div>
         </div>
-        <div class="talk-actions">
-          <a class="btn" href={mailto}>Email {email}</a>
-          <span class="where">Serving Madison, Ridgeland, Flowood, Brandon and the Jackson metro</span>
-        </div>
+        <Fpo class="talk-photo" tone="light" shot="Two people talking over coffee at a local café" ratio="4 / 3" speed={0.1} />
       </div>
     </section>
   </main>
+
+  <!-- Mobile: CTA that follows you once the hero is gone -->
+  <a class="dock btn" href="#talk" data-dock>Let's sit down <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 
   <footer class="site-footer">
     <div class="wrap foot">
@@ -214,26 +254,44 @@ const fixes = [
   .proof { list-style: none; padding: 0; margin: 4px 0 0; display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: var(--step--1); color: var(--field-ink); font-weight: 600; }
   .proof li { display: flex; align-items: center; gap: 8px; }
   .proof li::before { content: ''; width: 8px; height: 8px; border-radius: 2px; background: var(--accent); }
+  /* Hero art: photo + chalk play layered, drifting at different speeds */
+  .hero-art { position: relative; padding-bottom: 12%; }
+  .hero-art :global(.hero-photo) { width: 76%; margin-left: auto; box-shadow: 0 40px 80px -40px rgb(0 0 0 / 0.7); }
+  .hero-play { position: absolute; left: 0; bottom: 0; width: 72%; z-index: 2; }
   @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } .hero-art { max-width: 560px; } }
 
   /* What we hear */
   .hear { background: var(--field-sunk); }
-  .quotes { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .hear-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(20px, 3vw, 40px); align-items: center; }
+  .quotes { list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; }
   .quotes li { font-size: var(--step-1); color: var(--field-ink); font-weight: 600; line-height: 1.35; padding: 28px; border: 1px solid var(--field-line); border-radius: var(--radius); background: var(--field); }
   .quotes span { display: block; font-size: 3rem; line-height: 0.6; color: var(--accent); font-weight: 800; margin-bottom: 8px; }
-  @media (max-width: 820px) { .quotes { grid-template-columns: 1fr; } }
+  .quotes li:nth-child(2) { margin-left: clamp(0px, 4vw, 48px); }
+  @media (max-width: 820px) { .hear-grid { grid-template-columns: 1fr; } .quotes li:nth-child(2) { margin-left: 0; } }
+
+  /* Section CTAs */
+  .section-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; margin-top: clamp(36px, 5vw, 56px); }
+  .section-cta span { font-size: var(--step--1); color: var(--field-dim); max-width: 32rem; }
+
+  /* Full-bleed parallax band */
+  .band { position: relative; min-height: clamp(380px, 62vh, 640px); display: grid; align-items: end; overflow: hidden; }
+  .band :global(.band-photo) { position: absolute; inset: 0; border-radius: 0; }
+  .band::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgb(28 28 27 / 0.92), rgb(28 28 27 / 0.15) 65%); pointer-events: none; }
+  .band-copy { position: relative; z-index: 2; padding-block: clamp(40px, 7vw, 88px); display: grid; gap: 24px; justify-items: start; }
+  .band-copy p { font: 800 var(--step-3)/1.08 var(--font-brand); color: var(--field-ink); max-width: 18ch; letter-spacing: -0.015em; text-wrap: balance; }
 
   /* Steps — a yard-line track draws across as they reveal */
   .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(24px, 4vw, 48px); position: relative; padding-top: 44px; }
   .steps::before { content: ''; position: absolute; left: 0; right: 0; top: 10px; height: 2px; background: var(--field-line-strong); transform: scaleX(0); transform-origin: left; transition: transform 1400ms var(--ease-out) 200ms; }
   .steps.is-in::before, html:not(.js) .steps::before { transform: none; }
-  .steps li { display: grid; gap: 12px; align-content: start; position: relative; }
+  .steps li { display: grid; gap: 12px; grid-template-rows: auto auto 1fr auto; position: relative; }
   .js .steps li { opacity: 0; transform: translateY(20px); transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out); transition-delay: calc(300ms + var(--i) * 260ms); }
   .js .steps.is-in li { opacity: 1; transform: none; }
   .js .steps[data-reveal] { opacity: 1; transform: none; }
   .steps li::before { content: ''; position: absolute; top: -41px; left: 0; width: 18px; height: 18px; border-radius: 50%; background: var(--field); border: 3px solid var(--field-ink); }
   .num { font-weight: 800; color: var(--accent); font-size: var(--step--1); letter-spacing: 0.08em; }
   .steps h3 { font-size: var(--step-2); }
+  .steps li :global(.fpo) { margin-top: 10px; }
   @media (max-width: 820px) {
     .steps { grid-template-columns: 1fr; padding-top: 0; padding-left: 40px; }
     .steps::before { left: 8px; right: auto; top: 0; bottom: 0; width: 2px; height: auto; transform: scaleY(0); transform-origin: top; }
@@ -246,6 +304,8 @@ const fixes = [
   .card { padding: 28px 24px 30px; border-radius: var(--radius); background: var(--field-raised); border: 1px solid var(--field-line); display: grid; gap: 12px; align-content: start; transition: transform 250ms var(--ease-out), border-color 250ms; }
   .card:hover { transform: translateY(-4px); border-color: var(--field-line-strong); }
   .card h3 { font-size: var(--step-1); }
+  .card { padding-top: 14px; }
+  .card :global(.fpo) { margin: 0 -10px 6px; border-radius: 4px; }
   @media (max-width: 1000px) { .cards { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } }
 
@@ -253,7 +313,8 @@ const fixes = [
   .samples { background: linear-gradient(to bottom, var(--field), var(--field-sunk)); }
 
   /* Who */
-  .who-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 32px; }
+  .who-grid { display: grid; grid-template-columns: 1fr 1.7fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+  .who-side { display: grid; gap: 20px; }
   .who-copy { display: grid; gap: 20px; }
   .who-copy h2 { font-size: var(--step-3); }
   .who-copy p { font-size: var(--step-1); max-width: 44rem; }
@@ -261,14 +322,27 @@ const fixes = [
 
   /* Talk */
   .talk-card {
-    display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: end;
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(28px, 4vw, 56px); align-items: center;
     padding: clamp(32px, 6vw, 72px); border-radius: calc(var(--radius) * 1.6);
     background: var(--chalk); color: var(--graphite);
   }
   .talk-card h2 { color: var(--graphite); font-size: var(--step-4); margin-bottom: 16px; }
   .talk-card p { font-size: var(--step-1); }
   .talk-card .btn { --bg: var(--graphite); --fg: var(--chalk); }
-  .talk-actions { display: grid; gap: 14px; justify-items: start; }
+  .talk-copy { display: grid; gap: 8px; }
+  .talk-actions { display: grid; gap: 14px; justify-items: start; margin-top: 24px; }
+
+  /* Mobile dock CTA */
+  .dock { display: none; }
+  @media (max-width: 720px) {
+    .dock {
+      display: inline-flex; position: fixed; z-index: 60; left: 16px; right: 16px; bottom: 16px; justify-content: center;
+      box-shadow: 0 16px 40px -12px rgb(0 0 0 / 0.7);
+      transform: translateY(140%); transition: transform 400ms var(--ease-out);
+    }
+    .dock.is-shown { transform: none; }
+    .site-footer { padding-bottom: 96px; }
+  }
   .where { font-size: var(--step--1); color: #5a5a55; }
   @media (max-width: 820px) { .talk-card { grid-template-columns: 1fr; } }
 
