@@ -1,0 +1,122 @@
+---
+/**
+ * Hero visual: a chalk "play" on the notebook page.
+ * X = what's slowing the business down. Routes = the moves around them.
+ * Pure SVG + CSS. ~3KB, no JS.
+ */
+const targets = [
+  { x: 96, y: 112, label: ['Past customers', 'come back'], lx: 96, ly: 62, anchor: 'middle' },
+  { x: 268, y: 74, label: ['Reviews that', 'bring calls'], lx: 268, ly: 24, anchor: 'middle' },
+  { x: 438, y: 150, label: ['Every lead', 'answered fast'], lx: 438, ly: 100, anchor: 'middle' },
+];
+---
+<figure class="play" aria-labelledby="play-cap">
+  <svg viewBox="0 0 520 440" role="img" aria-describedby="play-cap">
+    <defs>
+      <filter id="chalk" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" />
+      </filter>
+    </defs>
+
+    <!-- notebook page -->
+    <g class="page" aria-hidden="true">
+      {Array.from({ length: 13 }, (_, i) => (
+        <line x1="0" x2="520" y1={34 + i * 32} y2={34 + i * 32} />
+      ))}
+      <line class="spine" x1="30" x2="30" y1="0" y2="440" />
+    </g>
+
+    <g filter="url(#chalk)" class="ink">
+      <!-- line of scrimmage -->
+      <line class="los" x1="70" x2="470" y1="350" y2="350" pathLength="1" />
+
+      <!-- what's slowing things down -->
+      <g class="x" style="--d:500ms"><path d="M182 222 l22 22 M204 222 l-22 22" /></g>
+      <g class="x" style="--d:650ms"><path d="M318 196 l22 22 M340 196 l-22 22" /></g>
+      <g class="x" style="--d:800ms"><path d="M400 284 l22 22 M422 284 l-22 22" /></g>
+
+      <!-- the business -->
+      <circle class="o" cx="262" cy="384" r="16" />
+
+      <!-- routes -->
+      <path class="route" style="--d:1100ms" pathLength="1"
+        d="M250 370 C 200 330, 140 300, 140 250 S 104 160, 98 132" />
+      <path class="route" style="--d:1350ms" pathLength="1"
+        d="M262 366 C 262 300, 250 260, 268 200 S 270 120, 268 96" />
+      <path class="route" style="--d:1600ms" pathLength="1"
+        d="M276 372 C 340 350, 380 330, 372 270 S 420 190, 432 170" />
+
+      <path class="head" style="--d:1950ms" d="M107 140.3 L98 132 L93.2 143.3" />
+      <path class="head" style="--d:2200ms" d="M275.8 105.4 L268 96 L261.8 106.6" />
+      <path class="head" style="--d:2450ms" d="M432.9 182.2 L432 170 L420.9 175" />
+
+      {targets.map((t, i) => (
+        <circle class="target" style={`--d:${2100 + i * 250}ms`} cx={t.x} cy={t.y} r="9" />
+      ))}
+    </g>
+
+    <g class="labels">
+      {targets.map((t, i) => (
+        <text x={t.lx} y={t.ly} text-anchor={t.anchor} style={`--d:${2200 + i * 250}ms`}>
+          <tspan x={t.lx} dy="0">{t.label[0]}</tspan>
+          <tspan x={t.lx} dy="19">{t.label[1]}</tspan>
+        </text>
+      ))}
+      <text class="you" x="262" y="424" text-anchor="middle" style="--d:300ms">Your business</text>
+    </g>
+  </svg>
+  <figcaption id="play-cap">
+    <span class="key"><b>✕</b> what's slowing you down</span>
+    <span class="key"><b>→</b> the moves around it</span>
+  </figcaption>
+</figure>
+
+<style>
+  .play {
+    margin: 0;
+    background: var(--field-sunk);
+    border: 1px solid var(--field-line);
+    border-radius: var(--radius);
+    padding: clamp(12px, 2.5vw, 24px);
+    color: var(--field-ink);
+    box-shadow: 0 40px 80px -40px rgb(0 0 0 / 0.6);
+  }
+  svg { width: 100%; height: auto; overflow: visible; }
+  .page line { stroke: var(--field-line); stroke-width: 1; }
+  .page .spine { stroke: var(--field-line-strong); stroke-width: 2; }
+
+  .ink * { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; }
+  .los { stroke-width: 2; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0.35;
+         animation: draw 900ms var(--ease-out) 150ms forwards; }
+  .o { stroke-width: 3.5; animation: pop 600ms var(--ease-out) 200ms both; transform-origin: 262px 384px; }
+  .x path { stroke-width: 4.5; stroke: var(--field-muted); }
+  .x { animation: stamp 420ms var(--ease-out) var(--d) both; transform-box: fill-box; transform-origin: center; }
+  .route { stroke-width: 3.5; stroke-dasharray: 1; stroke-dashoffset: 1;
+           animation: draw 1100ms var(--ease-out) var(--d) forwards; }
+  .head { stroke-width: 3.5; animation: fade 300ms var(--ease-out) var(--d) both; }
+  .target { fill: var(--accent) !important; stroke: none !important;
+            animation: pop 500ms var(--ease-out) var(--d) both, glow 3.2s ease-in-out calc(var(--d) + 1s) infinite;
+            transform-box: fill-box; transform-origin: center; }
+
+  .labels text { fill: var(--field-ink); font: 600 15px/1 var(--font-brand); animation: fade 600ms var(--ease-out) var(--d) both; }
+  .labels .you { fill: var(--field-muted); font-weight: 500; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; }
+
+  figcaption {
+    display: flex; flex-wrap: wrap; gap: 8px 20px;
+    margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--field-line);
+    font-size: var(--step--1); color: var(--field-dim);
+  }
+  .key b { color: var(--field-ink); margin-right: 6px; }
+
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @keyframes pop { from { opacity: 0; transform: scale(0.3); } to { opacity: 1; transform: none; } }
+  @keyframes stamp { 0% { opacity: 0; transform: scale(1.8) rotate(-20deg); } 100% { opacity: 1; transform: none; } }
+  @keyframes glow { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .play * { animation: none !important; }
+    .los, .route { stroke-dashoffset: 0; }
+  }
+</style>

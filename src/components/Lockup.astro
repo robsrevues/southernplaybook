@@ -1,0 +1,73 @@
+---
+/**
+ * Southern Playbook signature lockup.
+ * LOCKED: exact SP notebook vector + Public Sans ExtraBold wordmark,
+ * two lines spanning the mark's full height. Ratios come from the Figma frame
+ * (mark 104px → type 53.14px / 55.8px line, 21.55px gap).
+ */
+interface Props { size?: number; tagline?: boolean; animate?: boolean; class?: string }
+const { size = 104, tagline = false, animate = false, class: cls = '' } = Astro.props;
+---
+<div class:list={['lockup', cls, { 'lockup--animate': animate }]} style={`--mark:${size}px`}>
+  <svg class="mark" viewBox="0 0 104 104" role="img" aria-label="Southern Playbook">
+    <path
+      fill-rule="evenodd"
+      fill="currentColor"
+      d="M10.4 0H104V104H10.4C3.46667 104 0 100.533 0 93.6V10.4C0 3.46667 3.46667 0 10.4 0ZM7.8 7.8H13V96.2H7.8V7.8ZM52 20.8H33.8C26 20.8 22.1 24.7 22.1 32.5V46.15C22.1 53.95 26 57.85 33.8 57.85H40.3V71.5H22.1V83.2H40.3C48.1 83.2 52 79.3 52 71.5V57.85C52 50.05 48.1 46.15 40.3 46.15H33.8V32.5H52V20.8ZM59.8 20.8H81.9C89.7 20.8 93.6 24.7 93.6 32.5V48.1C93.6 55.9 89.7 59.8 81.9 59.8H71.5V83.2H59.8V20.8ZM71.5 32.5H81.9V48.1H71.5V32.5Z"
+    />
+  </svg>
+  <div class="text">
+    <span class="wordmark" aria-hidden="true"><span>Southern</span><span>Playbook</span></span>
+    {tagline && <span class="tagline">Game plans for local business.</span>}
+  </div>
+</div>
+
+<style>
+  .lockup {
+    display: grid;
+    grid-template-columns: var(--mark) auto;
+    column-gap: calc(var(--mark) * 0.2072);
+    align-items: start;
+    color: var(--field-ink);
+  }
+  .mark { width: var(--mark); height: var(--mark); }
+  .wordmark {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-brand);
+    font-weight: 800;
+    font-size: calc(var(--mark) * 0.511);
+    line-height: calc(var(--mark) * 0.5366);
+    margin-top: calc(var(--mark) * -0.0723);
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+  .tagline {
+    grid-column: 1 / -1;
+    display: block;
+    margin-top: calc(var(--mark) * 0.38);
+    color: var(--field-muted);
+    font-size: calc(var(--mark) * 0.2115);
+    font-weight: 400;
+  }
+  .text { display: contents; }
+
+  /* Entrance: mark lands, wordmark lines rise in */
+  .lockup--animate .mark { animation: land 900ms var(--ease-out) both; }
+  .lockup--animate .wordmark span { animation: rise 800ms var(--ease-out) both; }
+  .lockup--animate .wordmark span:nth-child(1) { animation-delay: 180ms; }
+  .lockup--animate .wordmark span:nth-child(2) { animation-delay: 300ms; }
+  .lockup--animate .tagline { animation: rise 800ms var(--ease-out) 520ms both; }
+
+  @keyframes land {
+    from { opacity: 0; transform: translateY(10px) rotate(-6deg) scale(0.92); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(0.4em); clip-path: inset(0 0 100% 0); }
+    to { opacity: 1; transform: none; clip-path: inset(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lockup--animate * { animation: none !important; }
+  }
+</style>
