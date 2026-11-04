@@ -1,0 +1,312 @@
+<!doctype html>
+<html
+  lang="en"
+  data-resolution="portrait"
+  data-composition-variables='[
+    {"id":"site","type":"string","label":"Sample site (tree | chiro | bbq)","default":"tree"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1350" />
+    <!-- Vendored so renders never depend on a CDN -->
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: 'Public Sans';
+        src: url('assets/public-sans.woff2') format('woff2');
+        font-weight: 100 900;
+        font-display: block;
+      }
+      /* Southern Playbook core — locked */
+      :root {
+        --graphite: #242424;
+        --chalk: #f5f5f2;
+        --silver: #bdbdb8;
+        --font: 'Public Sans', system-ui, sans-serif;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1350px; overflow: hidden; background: var(--graphite); }
+      body { font-family: var(--font); color: var(--chalk); -webkit-font-smoothing: antialiased; }
+
+      #scene { position: absolute; inset: 0; }
+
+      /* faint notebook rules, like the site hero */
+      .rules {
+        position: absolute; inset: 0;
+        background: repeating-linear-gradient(to bottom, transparent 0 47px, rgb(245 245 242 / 0.06) 47px 48px);
+        -webkit-mask-image: linear-gradient(to bottom, #000, transparent 70%);
+                mask-image: linear-gradient(to bottom, #000, transparent 70%);
+      }
+
+      .eyebrow {
+        position: absolute; left: 80px; top: 92px;
+        font-weight: 700; font-size: 30px; letter-spacing: 0.08em; text-transform: uppercase;
+      }
+      .eyebrow::before { content: ''; display: block; width: 52px; height: 6px; background: var(--chalk); margin-bottom: 20px; }
+      .eyebrow span { color: var(--silver); }
+
+      /* Browser frame */
+      .browser {
+        position: absolute; left: 60px; top: 220px; width: 960px; height: 720px;
+        border-radius: 22px; overflow: hidden; background: #fff;
+        box-shadow: 0 60px 120px -40px rgb(0 0 0 / 0.8), 0 0 0 1px rgb(245 245 242 / 0.08);
+      }
+      .chrome { height: 52px; display: flex; align-items: center; gap: 18px; padding: 0 22px; background: #e9e9e6; }
+      .dots { display: flex; gap: 9px; }
+      .dots i { width: 14px; height: 14px; border-radius: 50%; background: #c9c9c4; display: block; }
+      .url { font: 500 17px/1 var(--font); color: #5c5c58; background: #fff; border-radius: 8px; padding: 10px 16px; width: 420px; }
+      .site { position: absolute; top: 52px; left: 0; right: 0; bottom: 0; overflow: hidden; }
+
+      /* Shared sample-site parts */
+      .s-nav { display: flex; justify-content: space-between; align-items: center; padding: 30px 48px; font-size: 19px; font-weight: 700; }
+      .s-hero { padding: 26px 48px 0; display: grid; gap: 22px; justify-items: start; position: relative; z-index: 1; }
+      .s-hero h3 { font-weight: 800; font-size: 64px; line-height: 1.02; letter-spacing: -0.02em; }
+      .s-hero h3 .ln { display: block; }
+      .s-sub { font-size: 22px; line-height: 1.45; max-width: 600px; }
+      .s-ctas { display: flex; gap: 14px; }
+      .s-btn { display: inline-block; font-weight: 700; font-size: 21px; padding: 18px 28px; border-radius: 10px; }
+      .s-ghost { display: inline-block; font-weight: 700; font-size: 21px; padding: 16px 26px; border-radius: 10px; border: 2px solid currentColor; }
+
+      /* Tree service */
+      .tree { background: #f3efe4; color: #1e3326; }
+      .tree .s-nav span { font-weight: 500; color: #4d6b52; margin-left: 8px; }
+      .tree .live { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 600; color: #2f6b3c; }
+      .tree .live i { width: 12px; height: 12px; border-radius: 50%; background: #3fa45a; display: block; }
+      .tree .s-btn { background: #1e3326; color: #f3efe4; }
+      .canopy { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 260px; }
+      .canopy path { fill: #b9c9a9; } .canopy .b { fill: #93ad84; }
+
+      /* Chiropractor */
+      .chiro { background: linear-gradient(160deg, #fbf7f2, #efe4d8); color: #3b2a22; }
+      .chiro .s-nav .pill-nav { background: #3b2a22; color: #fbf7f2; padding: 10px 18px; border-radius: 999px; font-size: 17px; }
+      .chiro .s-hero h3 { font-size: 54px; }
+      .chiro .s-hero h3 .ln { white-space: nowrap; }
+      .chiro .pill { background: #e8c9ad; color: #5a3423; font-weight: 700; font-size: 17px; padding: 8px 16px; border-radius: 999px; }
+      .chiro .s-btn { background: #b4583a; color: #fff; }
+      .slots-card {
+        position: absolute; right: 48px; bottom: 44px; width: 380px; z-index: 2;
+        background: #fff; border-radius: 16px; padding: 22px; box-shadow: 0 30px 60px -30px rgb(59 42 34 / 0.45);
+        display: grid; gap: 14px;
+      }
+      .slots-card p { font-weight: 700; font-size: 18px; }
+      .slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .slots span { border: 2px solid #e2d4c6; border-radius: 10px; padding: 12px 0; text-align: center; font-weight: 600; font-size: 16px; }
+      .slots .gone { opacity: 0.35; text-decoration: line-through; }
+      .confirm { font-weight: 700; font-size: 18px; color: #2f6b3c; }
+
+      /* BBQ */
+      .bbq { background: radial-gradient(120% 90% at 85% 110%, #5a1f0c 0%, #1b1411 55%); color: #f6ead9; }
+      .bbq .s-nav b { letter-spacing: 0.14em; } .bbq .s-nav b span { color: #ff8a3d; }
+      .bbq .s-nav .call { color: #ffb37a; }
+      .bbq .s-hero h3 { font-size: 76px; }
+      .bbq .s-hero h3 em { font-style: normal; color: #ff8a3d; }
+      .bbq .s-btn { background: #ff8a3d; color: #1b1411; }
+      .ticker { position: absolute; left: 0; right: 0; bottom: 40px; border-block: 1px solid rgb(246 234 217 / 0.2); padding: 18px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 20px; }
+      .ticker-row { display: inline-flex; gap: 48px; padding-left: 48px; }
+      .ticker-row span::before { content: '●'; color: #ff8a3d; margin-right: 16px; font-size: 0.7em; vertical-align: middle; }
+      .glow { position: absolute; width: 10px; height: 10px; border-radius: 50%; background: #ff9c4a; box-shadow: 0 0 14px 4px #ff6a1a; opacity: 0; }
+
+      /* Cursor */
+      .cursor { position: absolute; left: 0; top: 0; width: 40px; height: 40px; z-index: 20; filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.35)); }
+      .ripple { position: absolute; width: 70px; height: 70px; margin: -35px 0 0 -35px; border-radius: 50%; border: 3px solid currentColor; opacity: 0; z-index: 19; }
+      .cursor { opacity: 0; }
+
+      /* The owner's side: what lands on their phone */
+      .notice {
+        position: absolute; left: 80px; right: 80px; top: 985px;
+        display: flex; align-items: center; gap: 22px;
+        background: #f5f5f2; color: var(--graphite);
+        border-radius: 22px; padding: 24px 28px;
+        box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.7);
+      }
+      .notice .app { flex: none; width: 60px; height: 60px; border-radius: 14px; background: var(--graphite); display: grid; place-items: center; }
+      .notice .app svg { width: 34px; height: 34px; }
+      .notice b { display: block; font-size: 30px; font-weight: 800; }
+      .notice span { display: block; font-size: 28px; color: #4f4f4b; margin-top: 4px; }
+      .notice time { margin-left: auto; align-self: start; font-size: 28px; color: #5c5c58; }
+
+      .caption {
+        position: absolute; left: 80px; right: 80px; top: 1180px;
+        font-weight: 800; font-size: 46px; line-height: 1.1; letter-spacing: -0.015em;
+      }
+
+      /* End card: exact SP lockup — mark 208px, type at locked ratios */
+      .endcard { position: absolute; inset: 0; display: grid; place-content: center; gap: 0; background: var(--graphite); }
+      .lockup { display: grid; grid-template-columns: 208px auto; column-gap: 43px; align-items: start; color: var(--chalk); }
+      .lockup svg { width: 208px; height: 208px; }
+      .wordmark { font-weight: 800; font-size: 106.3px; line-height: 111.6px; margin-top: -15px; white-space: nowrap; }
+      .wordmark span { display: block; }
+      .tagline { margin-top: 79px; font-size: 44px; color: var(--silver); }
+      .domain { margin-top: 64px; font-weight: 700; font-size: 30px; letter-spacing: 0.06em; color: var(--chalk); }
+      .domain::before { content: ''; display: block; width: 52px; height: 6px; background: var(--chalk); margin-bottom: 22px; }
+      .fineprint { position: absolute; left: 0; right: 0; bottom: 70px; text-align: center; font-size: 28px; color: #a3a39e; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="11" data-width="1080" data-height="1350">
+      <div id="scene" class="clip" data-start="0" data-duration="8.2" data-track-index="0">
+        <div class="rules"></div>
+        <p class="eyebrow" id="eyebrow"></p>
+
+        <div class="browser" id="browser">
+          <div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="url" id="url" data-layout-ignore></span></div>
+          <div class="site" id="site" data-layout-ignore></div>
+        </div>
+
+        <svg class="cursor" id="cursor" viewBox="0 0 24 24"><path d="M4 2l15 9.5-6.6 1.4 3.9 7.4-3 1.6-3.9-7.5L4 19z" fill="#111" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <div class="ripple" id="ripple"></div>
+
+        <div class="notice" id="notice">
+          <div class="app"><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3z M3 6l9 7 9-7" fill="none" stroke="#f5f5f2" stroke-width="2" stroke-linejoin="round"/></svg></div>
+          <div><b id="notice-title"></b><span id="notice-body"></span></div>
+          <time>now</time>
+        </div>
+
+        <p class="caption" id="caption"></p>
+      </div>
+
+      <div class="endcard clip" id="endcard" data-start="8.2" data-duration="2.8" data-track-index="1">
+          <div class="lockup">
+            <svg viewBox="0 0 104 104"><path fill-rule="evenodd" fill="currentColor" d="M10.4 0H104V104H10.4C3.46667 104 0 100.533 0 93.6V10.4C0 3.46667 3.46667 0 10.4 0ZM7.8 7.8H13V96.2H7.8V7.8ZM52 20.8H33.8C26 20.8 22.1 24.7 22.1 32.5V46.15C22.1 53.95 26 57.85 33.8 57.85H40.3V71.5H22.1V83.2H40.3C48.1 83.2 52 79.3 52 71.5V57.85C52 50.05 48.1 46.15 40.3 46.15H33.8V32.5H52V20.8ZM59.8 20.8H81.9C89.7 20.8 93.6 24.7 93.6 32.5V48.1C93.6 55.9 89.7 59.8 81.9 59.8H71.5V83.2H59.8V20.8ZM71.5 32.5H81.9V48.1H71.5V32.5Z"/></svg>
+            <div class="wordmark" id="wordmark"><span>Southern</span><span>Playbook</span></div>
+          </div>
+          <p class="tagline" id="tagline">Game plans for local business.</p>
+          <p class="domain" id="domain">SOUTHERNPLAYBOOK.COM</p>
+          <p class="fineprint">Sample concept for a made-up business.</p>
+      </div>
+    </div>
+
+    <script>
+      /* ---------- Content per sample site ---------- */
+      const SITES = {
+        tree: {
+          label: 'Tree service',
+          url: 'cypresstreecare.example',
+          cls: 'tree',
+          html: `
+            <header class="s-nav"><b>CYPRESS<span>TREE CARE</span></b><span>Call (601) 555-0142</span></header>
+            <div class="s-hero">
+              <p class="live a"><i></i> Crews out today in Madison &amp; Ridgeland</p>
+              <h3 class="a"><span class="ln">Storm damage?</span><span class="ln">We're there by morning.</span></h3>
+              <p class="s-sub a">Removal, trimming and stump grinding. Licensed, insured, and we clean up like we were never there.</p>
+              <div class="s-ctas a"><span class="s-btn" id="target">Get a free quote</span><span class="s-ghost">See recent jobs</span></div>
+            </div>
+            <svg class="canopy" id="canopy" viewBox="0 0 400 160" preserveAspectRatio="none">
+              <path d="M0 160 C 40 90, 90 120, 120 70 S 200 30, 230 80 S 330 40, 400 100 L400 160Z" />
+              <path class="b" d="M0 160 C 60 120, 120 140, 170 110 S 280 90, 320 120 S 380 120, 400 130 L400 160Z" />
+            </svg>`,
+          noticeTitle: 'New quote request',
+          noticeBody: 'Oak limb on the roof · Madison · photo attached',
+          caption: 'A website that books jobs while you’re out on one.',
+        },
+        chiro: {
+          label: 'Chiropractor',
+          url: 'northsidechiro.example',
+          cls: 'chiro',
+          html: `
+            <header class="s-nav"><b>Northside Chiropractic</b><span class="pill-nav">Book online</span></header>
+            <div class="s-hero">
+              <p class="pill a">New · Laser therapy</p>
+              <h3 class="a"><span class="ln">Knee and back pain relief,</span><span class="ln">without the wait.</span></h3>
+              <p class="s-sub a" style="max-width:440px">Non-invasive sessions in about 10 minutes.</p>
+            </div>
+            <div class="slots-card a">
+              <p>This week</p>
+              <div class="slots">
+                <span>Tue 9:00</span><span>Tue 2:30</span><span id="target">Wed 8:15</span>
+                <span>Thu 11:00</span><span>Fri 4:45</span><span class="gone">Sat 9:30</span>
+              </div>
+              <span class="confirm" id="confirm">✓ Wed 8:15 is yours</span>
+            </div>`,
+          noticeTitle: 'New booking: Wed 8:15',
+          noticeBody: 'Laser therapy consult · new patient',
+          caption: 'Patients pick their own time. Your front desk breathes.',
+        },
+        bbq: {
+          label: 'BBQ joint',
+          url: 'hickoryandash.example',
+          cls: 'bbq',
+          html: `
+            <header class="s-nav"><b>HICKORY <span>&amp;</span> ASH</b><span class="call">Open 11 till sold out</span></header>
+            <div class="s-hero">
+              <h3 class="a"><span class="ln">Smoked low.</span><span class="ln"><em>Gone by two.</em></span></h3>
+              <p class="s-sub a">Order ahead and skip the line. We'll text you when it's on the counter.</p>
+              <div class="s-ctas a"><span class="s-btn" id="target">Order pickup</span><span class="s-ghost">Cater an event</span></div>
+            </div>
+            <div class="ticker"><div class="ticker-row" id="ticker">
+              <span>Brisket ½ lb $14</span><span>Pulled pork plate $12</span><span>Rib tips $11</span><span>Smoked chicken $10</span><span>Banana pudding $5</span>
+              <span>Brisket ½ lb $14</span><span>Pulled pork plate $12</span><span>Rib tips $11</span><span>Smoked chicken $10</span><span>Banana pudding $5</span>
+            </div></div>
+            <i class="glow" style="left:620px;top:560px"></i><i class="glow" style="left:760px;top:600px"></i>
+            <i class="glow" style="left:840px;top:540px"></i><i class="glow" style="left:700px;top:620px"></i>`,
+          noticeTitle: 'Order #214 · pickup 12:15',
+          noticeBody: '2 brisket plates, banana pudding · paid',
+          caption: 'Orders come in before the line forms.',
+        },
+      };
+
+      const vars = (window.__hyperframes && window.__hyperframes.getVariables && window.__hyperframes.getVariables()) || {};
+      const key = SITES[vars.site] ? vars.site : 'tree';
+      const S = SITES[key];
+
+      const $ = (id) => document.getElementById(id);
+      $('eyebrow').innerHTML = `Sample site <span>· ${S.label}</span>`;
+      $('url').textContent = S.url;
+      const site = $('site');
+      site.className = 'site ' + S.cls;
+      site.innerHTML = S.html;
+      $('notice-title').textContent = S.noticeTitle;
+      $('notice-body').textContent = S.noticeBody;
+      $('caption').textContent = S.caption;
+
+      /* Cursor target: centre of the main button, in scene coordinates */
+      const target = $('target');
+      const sceneBox = $('scene').getBoundingClientRect();
+      const tb = target.getBoundingClientRect();
+      const tx = tb.left - sceneBox.left + tb.width * 0.55;
+      const ty = tb.top - sceneBox.top + tb.height * 0.55;
+      $('ripple').style.left = tx + 'px';
+      $('ripple').style.top = ty + 'px';
+      $('ripple').style.color = getComputedStyle(target).backgroundColor === 'rgba(0, 0, 0, 0)' ? '#b4583a' : getComputedStyle(target).backgroundColor;
+
+      /* ---------- Timeline (10s, starts and ends on plain graphite so it loops) ---------- */
+      const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+
+      // 0.0 – entrance
+      // Frame 0 is the social thumbnail, so the headline is already on screen.
+      tl.fromTo('#browser', { scale: 1.035 }, { scale: 1, duration: 2.2, ease: 'power2.out' }, 0);
+      tl.fromTo('#site .a:not(h3)', { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.14 }, 0.3);
+      if (key === 'tree') tl.fromTo('#canopy', { yPercent: 40 }, { yPercent: 0, duration: 1.4 }, 0.9);
+      if (key === 'bbq') {
+        tl.fromTo('#ticker', { x: 0 }, { x: -760, duration: 8.2, ease: 'none' }, 0);
+        tl.fromTo('#site .glow', { opacity: 0, y: 0 }, { opacity: 0.9, y: -220, duration: 3.2, stagger: 0.55, ease: 'none', repeat: 1 }, 0.8);
+      }
+
+      // 2.4 – visitor moves to the main button and taps it
+      tl.fromTo('#cursor', { x: 1040, y: 1000, opacity: 0 }, { x: tx, y: ty, opacity: 1, duration: 1.2, ease: 'power2.inOut' }, 2.4);
+      tl.to('#target', { scale: 0.94, duration: 0.1, ease: 'power1.in' }, 3.65);
+      tl.to('#target', { scale: 1, duration: 0.25 }, 3.75);
+      tl.fromTo('#ripple', { opacity: 0.9, scale: 0.3 }, { opacity: 0, scale: 1.6, duration: 0.6, ease: 'power2.out', immediateRender: false }, 3.68);
+      if (key === 'chiro') {
+        tl.to('#target', { backgroundColor: '#b4583a', borderColor: '#b4583a', color: '#ffffff', duration: 0.2 }, 3.7);
+        tl.fromTo('#confirm', { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4 }, 3.9);
+      }
+      tl.to('#cursor', { opacity: 0, duration: 0.4 }, 4.3);
+
+      // 4.2 – the payoff lands on the owner's phone
+      tl.fromTo('#notice', { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'back.out(1.6)' }, 4.2);
+      tl.fromTo('#caption', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, 4.3);
+
+      // 7.8 – site scene fades out, end card builds in its own clip
+      tl.to('#scene', { opacity: 0, duration: 0.4, ease: 'none' }, 7.8);
+      tl.fromTo('#endcard .lockup svg', { opacity: 0, y: 14, rotation: -6, scale: 0.92 }, { opacity: 1, y: 0, rotation: 0, scale: 1, duration: 0.8 }, 8.2);
+      tl.fromTo('#wordmark span', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.12 }, 8.3);
+      tl.fromTo(['#tagline', '#domain', '#endcard .fineprint'], { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.08 }, 8.5);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

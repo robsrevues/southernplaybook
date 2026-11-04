@@ -21,6 +21,7 @@ npm run build     # static output in dist/
 | `src/components/PlayDiagram.astro` | Animated chalk play in the hero |
 | `src/components/Showcase.astro` | Rotating sample client sites (fictional businesses) |
 | `src/pages/index.astro` | Homepage copy and layout |
+| `video/sample-sites/` | HyperFrames project: 4:5 social clips of the sample sites |
 | `brand/` | Source PDF from Figma + mark SVGs (graphite and chalk) |
 
 ## Brand status
