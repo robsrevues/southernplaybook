@@ -1,0 +1,55 @@
+---
+interface Props { id: string; url: string; active?: boolean }
+const { id, url, active = false } = Astro.props;
+---
+<!-- Building contractor (made-up): a house elevation draws itself on blueprint, then fills in -->
+<section class:list={['site', 'build', { 'is-active': active }]} role="tabpanel" id={`panel-${id}`} aria-labelledby={`tab-${id}`} data-panel data-url-value={url} hidden={!active}>
+  <header class="s-nav"><b>MAGNOLIA <span>BUILD CO.</span></b><span class="s-call">Start a project</span></header>
+  <div class="s-hero half">
+    <p class="s-eyebrow">Custom homes · Additions · Renovations</p>
+    <h3>From sketch<br />to keys.</h3>
+    <p class="s-sub">One team for design, permits and construction, with a weekly update so you always know where things stand.</p>
+    <div class="s-ctas"><span class="s-btn">Start your project</span><span class="s-ghost">Past builds</span></div>
+  </div>
+  <div class="s-art" aria-hidden="true">
+    <svg viewBox="0 0 270 230">
+      <g class="fill">
+        <polygon points="30,104 135,30 240,104" fill="#9fd3ff" opacity="0.18" />
+        <rect x="46" y="104" width="178" height="96" fill="#9fd3ff" opacity="0.12" />
+      </g>
+      <g fill="none" stroke="#e8f4ff" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+        <path class="draw d" pathLength="1" d="M30 104 L135 30 L240 104" style="--d:0.5s" />
+        <path class="draw d" pathLength="1" d="M46 104 V200 H224 V104" style="--d:0.9s" />
+        <path class="draw d" pathLength="1" d="M180 62 V36 H200 V76" style="--d:1.3s" />
+        <path class="draw d" pathLength="1" d="M117 200 V150 H153 V200" style="--d:1.5s" />
+        <path class="draw d" pathLength="1" d="M66 124 H100 V156 H66 Z M83 124 V156 M66 140 H100" style="--d:1.7s" />
+        <path class="draw d" pathLength="1" d="M170 124 H204 V156 H170 Z M187 124 V156 M170 140 H204" style="--d:1.9s" />
+      </g>
+      <g class="dims" stroke="#9fd3ff" stroke-width="1.2" fill="#9fd3ff" font-size="9" font-weight="600">
+        <line x1="46" y1="216" x2="224" y2="216" /><line x1="46" y1="211" x2="46" y2="221" /><line x1="224" y1="211" x2="224" y2="221" />
+        <text x="135" y="212" text-anchor="middle" stroke="none">42'-0"</text>
+        <line x1="254" y1="30" x2="254" y2="200" /><line x1="249" y1="30" x2="259" y2="30" /><line x1="249" y1="200" x2="259" y2="200" />
+      </g>
+    </svg>
+  </div>
+</section>
+
+<style>
+  .build {
+    background-color: #12324f; color: #fff;
+    background-image: linear-gradient(rgb(159 211 255 / 0.08) 1px, transparent 1px), linear-gradient(90deg, rgb(159 211 255 / 0.08) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  .build .s-nav b span { font-weight: 400; color: #9fd3ff; margin-left: 4px; }
+  .build .s-call { background: #fff; color: #12324f; padding: 0.5em 0.9em; border-radius: 999px; }
+  .build .s-eyebrow { color: #9fd3ff; }
+  .build .s-btn { background: #fff; color: #12324f; }
+  .build .s-ghost { color: #fff; border-color: rgb(255 255 255 / 0.45); }
+  @media (prefers-reduced-motion: no-preference) {
+    .build.is-active .d { animation: build-draw 800ms ease-in-out both; animation-delay: var(--d); }
+    .build.is-active .dims { animation: build-fade 600ms ease 2.4s both; }
+    .build.is-active .fill { animation: build-fade 900ms ease 2.6s both; }
+  }
+  @keyframes build-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @keyframes build-fade { from { opacity: 0; } to { opacity: 1; } }
+</style>

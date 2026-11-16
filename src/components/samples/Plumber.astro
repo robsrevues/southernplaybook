@@ -1,0 +1,53 @@
+---
+interface Props { id: string; url: string; active?: boolean }
+const { id, url, active = false } = Astro.props;
+---
+<!-- Plumber (made-up): drops fall from a faucet and ripple out in a puddle -->
+<section class:list={['site', 'plumb', { 'is-active': active }]} role="tabpanel" id={`panel-${id}`} aria-labelledby={`tab-${id}`} data-panel data-url-value={url} hidden={!active}>
+  <header class="s-nav"><b>Steady Flow <span>Plumbing</span></b><span class="s-call">24/7 · (601) 555-0137</span></header>
+  <div class="s-hero half">
+    <p class="s-eyebrow">Emergency line answered day or night</p>
+    <h3>Leak at midnight?<br />We pick up.</h3>
+    <p class="s-sub">Water heaters, drains, slab leaks and repipes. You get the price before we pick up a wrench.</p>
+    <div class="s-ctas"><span class="s-btn">Call now</span><span class="s-ghost">Schedule online</span></div>
+  </div>
+  <div class="s-art" aria-hidden="true">
+    <svg viewBox="0 0 240 240">
+      <path d="M20 20 H120 a26 26 0 0 1 26 26 V70" fill="none" stroke="#9fb7c9" stroke-width="22" stroke-linecap="round" />
+      <path d="M20 20 H120 a26 26 0 0 1 26 26 V70" fill="none" stroke="#c9d9e5" stroke-width="10" stroke-linecap="round" />
+      <rect x="128" y="66" width="36" height="16" rx="4" fill="#7c97ab" />
+      <rect x="112" y="6" width="22" height="28" rx="5" fill="#7c97ab" /><rect x="100" y="0" width="46" height="9" rx="4" fill="#5d7a90" />
+      <ellipse class="puddle" cx="146" cy="210" rx="64" ry="12" fill="#bfe0f5" />
+      <ellipse class="ripple r1" cx="146" cy="210" rx="20" ry="4" fill="none" stroke="#1e88e5" stroke-width="2.5" />
+      <ellipse class="ripple r2" cx="146" cy="210" rx="20" ry="4" fill="none" stroke="#1e88e5" stroke-width="2.5" />
+      <ellipse class="ripple r3" cx="146" cy="210" rx="20" ry="4" fill="none" stroke="#1e88e5" stroke-width="2.5" />
+      <path class="drop d1" d="M146 88 c 0 0 -10 14 -10 21 a10 10 0 0 0 20 0 c0 -7 -10 -21 -10 -21z" fill="#1e88e5" />
+      <path class="drop d2" d="M146 88 c 0 0 -10 14 -10 21 a10 10 0 0 0 20 0 c0 -7 -10 -21 -10 -21z" fill="#1e88e5" />
+      <path class="drop d3" d="M146 88 c 0 0 -10 14 -10 21 a10 10 0 0 0 20 0 c0 -7 -10 -21 -10 -21z" fill="#1e88e5" />
+    </svg>
+  </div>
+</section>
+
+<style>
+  .plumb { background: linear-gradient(170deg, #f1f8fd, #dcecf8); color: #0b3a5b; }
+  .plumb .s-nav b span { font-weight: 400; margin-left: 4px; }
+  .plumb .s-call { background: #0b3a5b; color: #fff; padding: 0.5em 0.9em; border-radius: 999px; }
+  .plumb .s-eyebrow { color: #1565c0; }
+  .plumb .s-btn { background: #1565c0; color: #fff; }
+  .ripple { opacity: 0; transform-box: fill-box; transform-origin: center; }
+  .drop { opacity: 0; }
+  .d1 { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: no-preference) {
+    .plumb.is-active .drop { animation: plumb-drop 2.4s cubic-bezier(0.55, 0, 1, 0.45) infinite; }
+    .plumb.is-active .d2 { animation-delay: 0.8s; } .plumb.is-active .d3 { animation-delay: 1.6s; }
+    .plumb.is-active .ripple { animation: plumb-ripple 2.4s ease-out infinite; }
+    .plumb.is-active .r1 { animation-delay: 1.05s; } .plumb.is-active .r2 { animation-delay: 1.85s; } .plumb.is-active .r3 { animation-delay: 2.65s; }
+  }
+  @keyframes plumb-drop {
+    0% { opacity: 0; transform: translateY(0) scale(0.4); }
+    10% { opacity: 1; transform: translateY(0) scale(1); }
+    40% { opacity: 1; transform: translateY(100px); }
+    42%, 100% { opacity: 0; transform: translateY(104px); }
+  }
+  @keyframes plumb-ripple { 0% { opacity: 0.9; transform: scale(0.4); } 60%, 100% { opacity: 0; transform: scale(3); } }
+</style>

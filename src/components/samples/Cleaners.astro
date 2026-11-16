@@ -1,0 +1,63 @@
+---
+interface Props { id: string; url: string; active?: boolean }
+const { id, url, active = false } = Astro.props;
+// Fixed (not random) dust specks so every render is the same
+const specks = [[24,30],[60,52],[96,22],[130,64],[168,36],[200,70],[40,96],[84,118],[122,104],[160,128],[196,112],[30,150],[72,170],[110,160],[150,182],[188,158],[56,200],[140,214],[204,196],[100,80]];
+---
+<!-- House cleaning (made-up): a squeegee wipes a dusty window clean, then it sparkles -->
+<section class:list={['site', 'clean', { 'is-active': active }]} role="tabpanel" id={`panel-${id}`} aria-labelledby={`tab-${id}`} data-panel data-url-value={url} hidden={!active}>
+  <header class="s-nav"><b>Front Porch <span>Cleaning Co.</span></b><span class="s-call">See my price</span></header>
+  <div class="s-hero half">
+    <p class="s-eyebrow">Weekly · Every other week · Move-out</p>
+    <h3>Come home to a clean house.</h3>
+    <p class="s-sub">Background-checked, insured cleaners. Book online in about a minute and pick the day that suits you.</p>
+    <div class="s-ctas"><span class="s-btn">Book a cleaning</span><span class="s-ghost">What's included</span></div>
+  </div>
+  <div class="s-art" aria-hidden="true">
+    <svg viewBox="0 0 240 240">
+      <defs>
+        <clipPath id="clean-pane"><rect x="12" y="12" width="216" height="216" rx="10" /></clipPath>
+        <linearGradient id="clean-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe9f7" /><stop offset="1" stop-color="#eaf9ff" /></linearGradient>
+        <symbol id="clean-star" viewBox="-10 -10 20 20"><path d="M0 -10 L2.4 -2.4 L10 0 L2.4 2.4 L0 10 L-2.4 2.4 L-10 0 L-2.4 -2.4Z" /></symbol>
+      </defs>
+      <g clip-path="url(#clean-pane)">
+        <rect x="12" y="12" width="216" height="216" fill="url(#clean-sky)" />
+        <path d="M12 190 C 70 170 140 200 228 176 V228 H12Z" fill="#9fdcc4" />
+        <g class="dust">
+          <rect x="12" y="12" width="216" height="216" fill="#b9b2a2" opacity="0.55" />
+          {specks.map(([x, y]) => <circle cx={x + 12} cy={y + 12} r="3.2" fill="#8c8474" opacity="0.6" />)}
+        </g>
+      </g>
+      <rect x="12" y="12" width="216" height="216" rx="10" fill="none" stroke="#0f3d33" stroke-width="8" />
+      <line x1="120" y1="12" x2="120" y2="228" stroke="#0f3d33" stroke-width="6" /><line x1="12" y1="120" x2="228" y2="120" stroke="#0f3d33" stroke-width="6" />
+      <g class="squeegee"><rect x="-6" y="0" width="12" height="240" rx="5" fill="#2bb38a" /><rect x="-2" y="0" width="4" height="240" fill="#0f3d33" opacity="0.4" /></g>
+      <g fill="#ffffff" class="stars">
+        <g class="star" style="transform-origin:51px 45px;--d:2.3s"><use href="#clean-star" x="40" y="34" width="22" height="22" /></g>
+        <g class="star" style="transform-origin:176px 64px;--d:2.5s"><use href="#clean-star" x="168" y="56" width="16" height="16" /></g>
+        <g class="star" style="transform-origin:162px 162px;--d:2.7s"><use href="#clean-star" x="150" y="150" width="24" height="24" /></g>
+        <g class="star" style="transform-origin:63px 157px;--d:2.9s"><use href="#clean-star" x="56" y="150" width="14" height="14" /></g>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<style>
+  .clean { background: linear-gradient(170deg, #f4fcf8, #e1f4ec); color: #0f3d33; }
+  .clean .s-nav b span { font-weight: 400; margin-left: 4px; }
+  .clean .s-call { background: #0f3d33; color: #fff; padding: 0.5em 0.9em; border-radius: 999px; }
+  .clean .s-eyebrow { color: #1a7a5e; }
+  .clean .s-btn { background: #2bb38a; color: #0b2e26; }
+  .dust { opacity: 0; }
+  .squeegee { transform: translateX(260px); }
+  .star { opacity: 1; filter: drop-shadow(0 0 4px rgb(43 179 138 / 0.8)); }
+  @media (prefers-reduced-motion: no-preference) {
+    .clean.is-active .dust { animation: clean-wipe 1.4s ease-in-out 0.6s both; }
+    .clean.is-active .squeegee { animation: clean-sweep 1.4s ease-in-out 0.6s both; }
+    .clean.is-active .star { transform-box: view-box; animation: clean-twinkle 1.6s ease-in-out var(--d) both, clean-glint 2.6s ease-in-out calc(var(--d) + 1.6s) infinite; }
+  }
+  /* Dust starts covering the pane, then the wipe reveals the clean glass left to right */
+  @keyframes clean-wipe { from { opacity: 1; clip-path: inset(0 0 0 0); } to { opacity: 1; clip-path: inset(0 0 0 100%); } }
+  @keyframes clean-sweep { from { transform: translateX(12px); opacity: 1; } 92% { transform: translateX(228px); opacity: 1; } to { transform: translateX(228px); opacity: 0; } }
+  @keyframes clean-twinkle { 0% { opacity: 0; transform: scale(0) rotate(-45deg); } 60% { opacity: 1; transform: scale(1.25) rotate(0); } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes clean-glint { 0%, 70%, 100% { transform: scale(1); } 85% { transform: scale(0.6) rotate(30deg); } }
+</style>

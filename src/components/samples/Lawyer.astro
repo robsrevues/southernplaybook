@@ -1,0 +1,52 @@
+---
+interface Props { id: string; url: string; active?: boolean }
+const { id, url, active = false } = Astro.props;
+---
+<!-- Law firm (made-up): the scales tip, swing, and settle level -->
+<section class:list={['site', 'law', { 'is-active': active }]} role="tabpanel" id={`panel-${id}`} aria-labelledby={`tab-${id}`} data-panel data-url-value={url} hidden={!active}>
+  <header class="s-nav"><b>Hale &amp; Rowe <span>Attorneys at Law</span></b><span class="s-call">(601) 555-0191</span></header>
+  <div class="s-hero half">
+    <p class="s-eyebrow">Personal injury · Family · Estates</p>
+    <h3>Straight answers when it matters.</h3>
+    <p class="s-sub">Free first consultation. We'll tell you plainly whether you have a case and what it will take.</p>
+    <div class="s-ctas"><span class="s-btn">Schedule a consultation</span><span class="s-ghost">Practice areas</span></div>
+  </div>
+  <div class="s-art" aria-hidden="true">
+    <svg viewBox="0 0 260 240">
+      <g fill="#c9a45c">
+        <rect x="126" y="40" width="8" height="160" rx="3" />
+        <path d="M86 214 h88 l-10 -16 h-68z" />
+        <circle cx="130" cy="36" r="10" />
+      </g>
+      <g class="beam" style="transform-origin:130px 52px">
+        <rect x="30" y="48" width="200" height="8" rx="4" fill="#c9a45c" />
+        <g class="pan" style="transform-origin:38px 52px">
+          <path d="M38 52 L14 132 M38 52 L62 132" stroke="#c9a45c" stroke-width="2" fill="none" />
+          <path d="M6 132 h64 a32 14 0 0 1 -64 0z" fill="#c9a45c" />
+        </g>
+        <g class="pan" style="transform-origin:222px 52px">
+          <path d="M222 52 L198 132 M222 52 L246 132" stroke="#c9a45c" stroke-width="2" fill="none" />
+          <path d="M190 132 h64 a32 14 0 0 1 -64 0z" fill="#c9a45c" />
+        </g>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<style>
+  .law { background: radial-gradient(90% 90% at 80% 30%, #1d3a2f, #10211b 70%); color: #f4efe3; }
+  .law .s-nav b { font-family: Georgia, 'Times New Roman', serif; letter-spacing: 0.01em; }
+  .law .s-nav b span { font-family: var(--font-body); font-weight: 400; font-size: 0.85em; color: #c9a45c; margin-left: 8px; }
+  .law h3 { font-family: Georgia, 'Times New Roman', serif; font-weight: 700; letter-spacing: -0.01em; }
+  .law .s-eyebrow { color: #c9a45c; }
+  .law .s-btn { background: #c9a45c; color: #10211b; }
+  .law .s-ghost { color: #f4efe3; border-color: rgb(244 239 227 / 0.4); }
+  .beam, .pan { transform-box: view-box; }
+  @media (prefers-reduced-motion: no-preference) {
+    /* Beam swings and settles; pans counter-rotate so they keep hanging straight */
+    .law.is-active .beam { animation: law-swing 2.6s ease-out 0.5s both; }
+    .law.is-active .pan { animation: law-hang 2.6s ease-out 0.5s both; }
+  }
+  @keyframes law-swing { 0% { transform: rotate(-14deg); } 25% { transform: rotate(9deg); } 45% { transform: rotate(-5deg); } 65% { transform: rotate(2.5deg); } 82% { transform: rotate(-1deg); } 100% { transform: rotate(0); } }
+  @keyframes law-hang { 0% { transform: rotate(14deg); } 25% { transform: rotate(-9deg); } 45% { transform: rotate(5deg); } 65% { transform: rotate(-2.5deg); } 82% { transform: rotate(1deg); } 100% { transform: rotate(0); } }
+</style>

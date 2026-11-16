@@ -19,7 +19,8 @@ npm run build     # static output in dist/
 | `src/styles/tokens.css` | Colors, type, spacing, motion. **Start here for brand changes.** |
 | `src/components/Lockup.astro` | Mark + wordmark lockup (locked geometry) |
 | `src/components/PlayDiagram.astro` | Animated chalk play in the hero |
-| `src/components/Showcase.astro` | Rotating sample client sites (fictional businesses) |
+| `src/components/Showcase.astro` | Sample sites by industry (grid of 12; rotates while on screen) |
+| `src/components/samples/` | One file per sample site. Tree service mirrors rankintreeservice.com; the rest are made-up businesses. Copy one to add an industry, then list it in `Showcase.astro`. |
 | `src/pages/index.astro` | Homepage copy and layout |
 | `video/sample-sites/` | HyperFrames project: 4:5 social clips of the sample sites |
 | `brand/` | Source PDF from Figma + mark SVGs (graphite and chalk) |

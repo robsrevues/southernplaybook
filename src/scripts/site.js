@@ -90,7 +90,13 @@ document.querySelectorAll('[data-showcase]').forEach((root) => {
       p.classList.toggle('is-active', on);
     });
     if (url) url.textContent = panels[index].dataset.urlValue;
-    if (focus) tabs[index].focus();
+    // On phones the industry list scrolls sideways: keep the active one in view
+    // (scroll the list itself, never the page).
+    const list = tabs[index].parentElement;
+    if (list.scrollWidth > list.clientWidth + 1) {
+      list.scrollTo({ left: Math.max(0, tabs[index].offsetLeft - 16), behavior: reduced ? 'auto' : 'smooth' });
+    }
+    if (focus) tabs[index].focus({ preventScroll: true });
   };
 
   const play = () => {

@@ -1,0 +1,50 @@
+---
+interface Props { id: string; url: string; active?: boolean }
+const { id, url, active = false } = Astro.props;
+// Shingle courses, laid bottom to top like a real roof
+const rows = [0, 1, 2, 3, 4, 5, 6];
+---
+<!-- Roofer (made-up): shingle courses lay down row by row, then the ridge cap -->
+<section class:list={['site', 'roof', { 'is-active': active }]} role="tabpanel" id={`panel-${id}`} aria-labelledby={`tab-${id}`} data-panel data-url-value={url} hidden={!active}>
+  <header class="s-nav"><b>HIGH RIDGE <span>ROOFING</span></b><span class="s-call">(601) 555-0164</span></header>
+  <div class="s-hero half">
+    <p class="s-eyebrow">Free storm inspections</p>
+    <h3>Hail hit?<br />We'll walk you through the claim.</h3>
+    <p class="s-sub">Shingle, metal and flat roofs. We document the damage and meet your adjuster on site.</p>
+    <div class="s-ctas"><span class="s-btn">Book an inspection</span><span class="s-ghost">See recent roofs</span></div>
+  </div>
+  <div class="s-art" aria-hidden="true">
+    <svg viewBox="0 0 260 220">
+      <defs>
+        <clipPath id="roof-clip"><polygon points="130,28 252,140 8,140" /></clipPath>
+      </defs>
+      <rect x="40" y="132" width="180" height="84" fill="#3a3d42" />
+      <rect x="112" y="160" width="36" height="56" fill="#d98b4a" />
+      <rect x="58" y="152" width="34" height="28" fill="#5c6068" /><rect x="168" y="152" width="34" height="28" fill="#5c6068" />
+      <polygon points="130,28 252,140 8,140" fill="#2a2c30" />
+      <g clip-path="url(#roof-clip)">
+        {rows.map((r) => (
+          <g class="course" style={`--r:${r}`}>
+            <rect x="0" y={124 - r * 15.5} width="260" height="17" fill={r % 2 ? '#6f5a4b' : '#7d6655'} />
+            <path d={`M0 ${141 - r * 15.5} ${Array.from({ length: 14 }, (_, k) => `h18 v-4 h2 v4`).join(' ')}`} fill="none" stroke="#2a2c30" stroke-width="1.5" transform={`translate(${r % 2 ? 9 : 0} 0)`} />
+          </g>
+        ))}
+      </g>
+      <path class="ridge" d="M124 26 L130 20 L136 26 L252 134 L246 140 L130 34 L14 140 L8 134 Z" fill="#d98b4a" />
+    </svg>
+  </div>
+</section>
+
+<style>
+  .roof { background: linear-gradient(160deg, #26282c, #17181a); color: #f2efe9; }
+  .roof .s-nav b span { font-weight: 400; color: #d98b4a; margin-left: 4px; }
+  .roof .s-eyebrow { color: #e3a26c; }
+  .roof .s-btn { background: #d98b4a; color: #17181a; }
+  .roof .s-ghost { color: #f2efe9; border-color: rgb(242 239 233 / 0.45); }
+  @media (prefers-reduced-motion: no-preference) {
+    .roof.is-active .course { animation: roof-lay 500ms var(--ease-out) both; animation-delay: calc(500ms + var(--r) * 170ms); }
+    .roof.is-active .ridge { animation: roof-cap 600ms cubic-bezier(0.34, 1.5, 0.64, 1) 1.8s both; }
+  }
+  @keyframes roof-lay { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: none; } }
+  @keyframes roof-cap { from { opacity: 0; transform: translateY(-18px); } to { opacity: 1; transform: none; } }
+</style>

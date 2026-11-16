@@ -1,0 +1,54 @@
+---
+interface Props { id: string; url: string; active?: boolean }
+const { id, url, active = false } = Astro.props;
+---
+      <!-- 1 · Tree service: Rankin Tree Service, a live site we built -->
+      <section class:list={["site", "tree", { "is-active": active }]} role="tabpanel" id={`panel-${id}`} aria-labelledby={`tab-${id}`} data-panel data-url-value={url} hidden={!active}>
+        <header class="s-nav"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l5 7h-3l4 6h-3.5l3.5 5H6l3.5-5H6l4-6H7z" fill="currentColor"/><rect x="11" y="19" width="2" height="3" fill="currentColor"/></svg>Rankin Tree Service</b><span class="s-call">(601) 557-2781</span></header>
+        <div class="s-hero">
+          <p class="s-eyebrow">Free estimates across Rankin County</p>
+          <h3>Tree Service in Rankin County, MS</h3>
+          <p class="s-sub">Tree removal, trimming, stump grinding, and storm cleanup for homes in Brandon, Pearl, Flowood, and the rest of Rankin County.</p>
+          <div class="s-ctas"><span class="s-btn">Call (601) 557-2781</span><span class="s-ghost">Request a free quote</span></div>
+        </div>
+        <svg class="s-hills" viewBox="0 72 400 98" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+          <defs><symbol id="sp-pine" viewBox="0 0 40 100" preserveAspectRatio="none"><rect x="18" y="84" width="4" height="16" /><polygon points="20,0 31,24 26,24 35,48 29,48 40,82 0,82 11,48 5,48 14,24 9,24" /></symbol></defs>
+          <path class="hb" d="M0 170 V114 C 60 100 120 98 180 106 S 300 120 400 104 V170 Z" />
+          <g class="pb"><g class="pine" style="transform-origin:40px 124px;--d:150ms"><use href="#sp-pine" x="31.2" y="80.0" width="17.6" height="44.0" /></g><g class="pine" style="transform-origin:66px 126px;--d:260ms"><use href="#sp-pine" x="59.2" y="92.0" width="13.6" height="34.0" /></g><g class="pine" style="transform-origin:250px 122px;--d:200ms"><use href="#sp-pine" x="242.4" y="84.0" width="15.2" height="38.0" /></g><g class="pine" style="transform-origin:276px 125px;--d:320ms"><use href="#sp-pine" x="270.0" y="95.0" width="12.0" height="30.0" /></g><g class="pine" style="transform-origin:352px 120px;--d:240ms"><use href="#sp-pine" x="343.6" y="78.0" width="16.8" height="42.0" /></g></g>
+          <path class="hf" d="M0 170 V140 C 90 128 170 132 250 138 S 360 144 400 134 V170 Z" />
+          <g class="pf"><g class="pine" style="transform-origin:96px 154px;--d:380ms"><use href="#sp-pine" x="85.6" y="102.0" width="20.8" height="52.0" /></g><g class="pine" style="transform-origin:124px 157px;--d:500ms"><use href="#sp-pine" x="116.4" y="119.0" width="15.2" height="38.0" /></g><g class="pine" style="transform-origin:200px 158px;--d:440ms"><use href="#sp-pine" x="191.2" y="114.0" width="17.6" height="44.0" /></g><g class="pine" style="transform-origin:306px 154px;--d:420ms"><use href="#sp-pine" x="294.8" y="98.0" width="22.4" height="56.0" /></g><g class="pine" style="transform-origin:338px 158px;--d:560ms"><use href="#sp-pine" x="330.0" y="118.0" width="16.0" height="40.0" /></g></g>
+        </svg>
+      </section>
+
+<style>
+  /* Tree */
+  /* Tree: mirrors rankintreeservice.com */
+  .tree { background: #f3efe4; color: #142a1d; padding-top: 0; }
+  .tree .s-nav {
+    margin: 0 calc(-1 * clamp(18px, 4cqi, 40px));
+    padding: 1.4cqi clamp(18px, 4cqi, 40px);
+    background: #1f3d2b; color: #fff;
+  }
+  .tree .s-nav b { display: inline-flex; align-items: center; gap: 0.5em; letter-spacing: 0; font-weight: 800; }
+  .tree .s-nav svg { width: 1.3em; height: 1.3em; color: #b9d3b0; }
+  .tree .s-call { color: #fff; }
+  .s-eyebrow { font-size: clamp(10px, 1.3cqi, 13px); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #3f6b47; }
+  .tree h3 { font-size: clamp(22px, 4.6cqi, 46px); max-width: 16ch; }
+  .tree .s-sub { color: #3d4c42; opacity: 1; }
+  .tree .s-btn { background: #c2410c; color: #fff; border-radius: 6px; }
+  .tree .s-ghost { border: 2px solid #142a1d; border-radius: 6px; }
+  .s-hills { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: auto; display: block; }
+  .s-hills .hb { fill: #c3d1b4; } .s-hills .hf { fill: #9fb68f; }
+  .s-hills .pb { fill: #7d9a72; } .s-hills .pf { fill: #4f7048; }
+  @media (prefers-reduced-motion: no-preference) {
+    /* Each pine grows from its own trunk base (origin set inline, in scene units) */
+    .tree.is-active .s-hills .pine { transform-box: view-box; animation: sapling 1.5s both; animation-delay: var(--d, 200ms); }
+  }
+  @keyframes sapling {
+    0% { transform: scale(0); animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); }
+    22% { transform: scale(0.3); animation-timing-function: linear; }
+    38% { transform: scale(0.32); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+    100% { transform: scale(1); }
+  }
+  @keyframes sway { to { transform: translateY(4px) skewX(-2deg); } }
+</style>

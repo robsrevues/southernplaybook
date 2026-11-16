@@ -1,20 +1,47 @@
 ---
 /**
- * "What your site could look like" — Rankin Tree Service (a live site
- * we built, rankintreeservice.com) plus two concepts for fictional businesses, rendered in CSS inside a browser frame.
- * Auto-rotates (pauses on hover/focus, off for reduced motion). Tabs are real buttons.
+ * "What your site could look like." Pick an industry, see a site for it.
+ * Tree service is Rankin Tree Service (a live site we built); every other
+ * sample is a concept for a made-up business, drawn in CSS/SVG.
+ * Auto-rotates while on screen (pauses on hover; stops once someone picks
+ * an industry; off for reduced motion). Industry buttons are real tabs.
+ *
+ * To add an industry: make src/components/samples/<Name>.astro (copy one),
+ * then add it to `samples` below. Order here = order in the grid.
  */
-const concepts = [
-  { id: 'tree', tab: 'Tree service', url: 'rankintreeservice.com', live: true },
-  { id: 'chiro', tab: 'Chiropractor', url: 'northsidechiro.example' },
-  { id: 'bbq', tab: 'BBQ joint', url: 'hickoryandash.example' },
+import Tree from './samples/Tree.astro';
+import Electrician from './samples/Electrician.astro';
+import Plumber from './samples/Plumber.astro';
+import Roofer from './samples/Roofer.astro';
+import Framer from './samples/Framer.astro';
+import Contractor from './samples/Contractor.astro';
+import Cleaners from './samples/Cleaners.astro';
+import Chiro from './samples/Chiro.astro';
+import Dentist from './samples/Dentist.astro';
+import Bbq from './samples/Bbq.astro';
+import Lawyer from './samples/Lawyer.astro';
+import Banker from './samples/Banker.astro';
+
+const samples = [
+  { id: 'tree', label: 'Tree service', url: 'rankintreeservice.com', C: Tree },
+  { id: 'elec', label: 'Electrician', url: 'copperlineelectric.example', C: Electrician },
+  { id: 'plumb', label: 'Plumber', url: 'steadyflowplumbing.example', C: Plumber },
+  { id: 'roof', label: 'Roofer', url: 'highridgeroofing.example', C: Roofer },
+  { id: 'frame', label: 'Framer', url: 'truesquareframing.example', C: Framer },
+  { id: 'build', label: 'Contractor', url: 'magnoliabuild.example', C: Contractor },
+  { id: 'clean', label: 'House cleaning', url: 'frontporchcleaning.example', C: Cleaners },
+  { id: 'chiro', label: 'Chiropractor', url: 'northsidechiro.example', C: Chiro },
+  { id: 'dent', label: 'Dentist', url: 'liveoakdental.example', C: Dentist },
+  { id: 'bbq', label: 'BBQ joint', url: 'hickoryandash.example', C: Bbq },
+  { id: 'law', label: 'Lawyer', url: 'halerowelaw.example', C: Lawyer },
+  { id: 'bank', label: 'Community bank', url: 'sweetgumbank.example', C: Banker },
 ];
 ---
 <div class="showcase" data-showcase>
-  <div class="tabs" role="tablist" aria-label="Sample site concepts">
-    {concepts.map((c, i) => (
-      <button role="tab" id={`tab-${c.id}`} aria-controls={`panel-${c.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-tab={i}>
-        {c.tab}
+  <div class="tabs" role="tablist" aria-label="Sample sites by industry">
+    {samples.map((s, i) => (
+      <button role="tab" id={`tab-${s.id}`} aria-controls={`panel-${s.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-tab={i}>
+        {s.label}
         <span class="bar" aria-hidden="true"></span>
       </button>
     ))}
@@ -23,86 +50,43 @@ const concepts = [
   <div class="browser">
     <div class="chrome" aria-hidden="true">
       <span class="dots"><i></i><i></i><i></i></span>
-      <span class="url" data-url>{concepts[0].url}</span>
+      <span class="url" data-url>{samples[0].url}</span>
     </div>
-
     <div class="stage">
-      <!-- 1 · Tree service: Rankin Tree Service, a live site we built -->
-      <section class="site tree is-active" role="tabpanel" id="panel-tree" aria-labelledby="tab-tree" data-panel data-url-value={concepts[0].url}>
-        <header class="s-nav"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l5 7h-3l4 6h-3.5l3.5 5H6l3.5-5H6l4-6H7z" fill="currentColor"/><rect x="11" y="19" width="2" height="3" fill="currentColor"/></svg>Rankin Tree Service</b><span class="s-call">(601) 557-2781</span></header>
-        <div class="s-hero">
-          <p class="s-eyebrow">Free estimates across Rankin County</p>
-          <h3>Tree Service in Rankin County, MS</h3>
-          <p class="s-sub">Tree removal, trimming, stump grinding, and storm cleanup for homes in Brandon, Pearl, Flowood, and the rest of Rankin County.</p>
-          <div class="s-ctas"><span class="s-btn">Call (601) 557-2781</span><span class="s-ghost">Request a free quote</span></div>
-        </div>
-        <svg class="s-hills" viewBox="0 72 400 98" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
-          <defs><symbol id="sp-pine" viewBox="0 0 40 100" preserveAspectRatio="none"><rect x="18" y="84" width="4" height="16" /><polygon points="20,0 31,24 26,24 35,48 29,48 40,82 0,82 11,48 5,48 14,24 9,24" /></symbol></defs>
-          <path class="hb" d="M0 170 V114 C 60 100 120 98 180 106 S 300 120 400 104 V170 Z" />
-          <g class="pb"><g class="pine" style="transform-origin:40px 124px;--d:150ms"><use href="#sp-pine" x="31.2" y="80.0" width="17.6" height="44.0" /></g><g class="pine" style="transform-origin:66px 126px;--d:260ms"><use href="#sp-pine" x="59.2" y="92.0" width="13.6" height="34.0" /></g><g class="pine" style="transform-origin:250px 122px;--d:200ms"><use href="#sp-pine" x="242.4" y="84.0" width="15.2" height="38.0" /></g><g class="pine" style="transform-origin:276px 125px;--d:320ms"><use href="#sp-pine" x="270.0" y="95.0" width="12.0" height="30.0" /></g><g class="pine" style="transform-origin:352px 120px;--d:240ms"><use href="#sp-pine" x="343.6" y="78.0" width="16.8" height="42.0" /></g></g>
-          <path class="hf" d="M0 170 V140 C 90 128 170 132 250 138 S 360 144 400 134 V170 Z" />
-          <g class="pf"><g class="pine" style="transform-origin:96px 154px;--d:380ms"><use href="#sp-pine" x="85.6" y="102.0" width="20.8" height="52.0" /></g><g class="pine" style="transform-origin:124px 157px;--d:500ms"><use href="#sp-pine" x="116.4" y="119.0" width="15.2" height="38.0" /></g><g class="pine" style="transform-origin:200px 158px;--d:440ms"><use href="#sp-pine" x="191.2" y="114.0" width="17.6" height="44.0" /></g><g class="pine" style="transform-origin:306px 154px;--d:420ms"><use href="#sp-pine" x="294.8" y="98.0" width="22.4" height="56.0" /></g><g class="pine" style="transform-origin:338px 158px;--d:560ms"><use href="#sp-pine" x="330.0" y="118.0" width="16.0" height="40.0" /></g></g>
-        </svg>
-      </section>
-
-      <!-- 2 · Chiropractor -->
-      <section class="site chiro" role="tabpanel" id="panel-chiro" aria-labelledby="tab-chiro" data-panel data-url-value={concepts[1].url} hidden>
-        <header class="s-nav"><b>Northside <span>Chiropractic</span></b><span class="s-call">Book online</span></header>
-        <div class="s-grid">
-          <div class="s-hero">
-            <p class="s-pill">New · Laser therapy</p>
-            <h3>Knee and back pain relief, without the wait.</h3>
-            <p class="s-sub">Non-invasive laser sessions in about 10 minutes. Most patients feel a difference in the first few visits.</p>
-            <span class="s-btn">See if it's right for you</span>
-          </div>
-          <div class="s-side">
-            <div class="spine" aria-hidden="true"><i style="--x:14%;--r:-8deg;--i:0;--w:0.78"></i><i style="--x:26%;--r:6deg;--i:1;--w:0.82"></i><i style="--x:34%;--r:10deg;--i:2;--w:0.85"></i><i style="--x:22%;--r:-4deg;--i:3;--w:0.89"></i><i style="--x:4%;--r:-9deg;--i:4;--w:0.92"></i><i style="--x:-14%;--r:-6deg;--i:5;--w:0.96"></i><i style="--x:-26%;--r:7deg;--i:6;--w:0.99"></i><i style="--x:-18%;--r:11deg;--i:7;--w:1.03"></i><i style="--x:-6%;--r:4deg;--i:8;--w:1.06"></i></div>
-          <div class="s-book" aria-hidden="true">
-            <p>This week</p>
-            <div class="slots">
-              <span>Tue 9:00</span><span>Tue 2:30</span><span class="pick">Wed 8:15</span><span>Thu 11:00</span><span>Fri 4:45</span><span class="gone">Sat 9:30</span>
-            </div>
-            <span class="s-confirm">✓ Wed 8:15 held for you</span>
-          </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 3 · BBQ -->
-      <section class="site bbq" role="tabpanel" id="panel-bbq" aria-labelledby="tab-bbq" data-panel data-url-value={concepts[2].url} hidden>
-        <header class="s-nav"><b>HICKORY <span>&amp;</span> ASH</b><span class="s-call">Open 11–sold out</span></header>
-        <div class="s-hero">
-          <h3>Smoked low.<br /><em>Gone by two.</em></h3>
-          <p class="s-sub">Order ahead and skip the line. We'll text you when it's on the counter.</p>
-          <div class="s-ctas"><span class="s-btn">Order pickup</span><span class="s-ghost">Cater an event</span></div>
-        </div>
-        <div class="s-ticker" aria-hidden="true">
-          <div><span>Brisket ½ lb $14</span><span>Pulled pork plate $12</span><span>Rib tips $11</span><span>Smoked chicken $10</span><span>Banana pudding $5</span><span>Brisket ½ lb $14</span><span>Pulled pork plate $12</span><span>Rib tips $11</span><span>Smoked chicken $10</span><span>Banana pudding $5</span></div>
-        </div>
-        <div class="embers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      </section>
+      {samples.map((s, i) => <s.C id={s.id} url={s.url} active={i === 0} />)}
     </div>
   </div>
-  <p class="note">Tree service is <a href="https://rankintreeservice.com" target="_blank" rel="noopener">Rankin Tree Service</a>, a live site we built. The chiropractor and BBQ joint are concepts for made-up businesses. Your site gets built around your customers, your voice, and what you want people to do next.</p>
+  <p class="note">Tree service is <a href="https://rankintreeservice.com" target="_blank" rel="noopener">Rankin Tree Service</a>, a live site we built. The rest are concepts for made-up businesses. Your site gets built around your customers, your voice, and what you want people to do next.</p>
 </div>
 
 <style>
   .showcase { display: grid; gap: 18px; }
-  .tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  /* Industry grid (a tablist). Wraps into rows on wide screens, scrolls sideways on phones. */
+  .tabs { position: relative; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
   .tabs button {
-    position: relative; overflow: hidden;
-    font: 700 var(--step--1)/1 var(--font-body);
+    position: relative; overflow: hidden; text-align: left;
+    font: 700 var(--step--1)/1.1 var(--font-body);
     color: var(--field-muted); background: transparent;
-    border: 1px solid var(--field-line-strong); border-radius: 999px;
-    padding: 0.8em 1.2em; cursor: pointer;
+    border: 1px solid var(--field-line-strong); border-radius: 10px;
+    padding: 0.85em 1em; cursor: pointer; white-space: nowrap;
     transition: color 200ms, background 200ms, border-color 200ms;
   }
+  .tabs button:hover { color: var(--field-ink); border-color: var(--field-ink); }
   .tabs button[aria-selected='true'] { color: var(--field); background: var(--field-ink); border-color: var(--field-ink); }
   .tabs button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-  .bar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: var(--graphite); /* sits on the chalk pill: mustard is too faint there */ transform: scaleX(0); transform-origin: left; }
+  .bar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: var(--graphite); /* on the chalk button: mustard is too faint there */ transform: scaleX(0); transform-origin: left; }
   .showcase.is-playing button[aria-selected='true'] .bar { animation: progress var(--rotate, 6s) linear forwards; }
   .showcase.is-paused button[aria-selected='true'] .bar { animation-play-state: paused; }
   @keyframes progress { to { transform: scaleX(1); } }
+  @media (max-width: 640px) {
+    .tabs {
+      display: flex; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none;
+      margin-inline: calc(-1 * var(--gutter)); padding: 2px var(--gutter) 4px;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tabs button { flex: none; scroll-snap-align: start; }
+  }
 
   .browser {
     border-radius: 14px; overflow: hidden;
@@ -112,133 +96,49 @@ const concepts = [
   .chrome { display: flex; align-items: center; gap: 14px; padding: 10px 14px; background: #e9ebee; }
   .dots { display: flex; gap: 6px; } .dots i { width: 10px; height: 10px; border-radius: 50%; background: #c6cbd2; }
   .url { flex: 1; max-width: 320px; font: 500 12px/1 var(--font-body); color: #5b6472; background: #fff; border-radius: 6px; padding: 7px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
   .stage { position: relative; aspect-ratio: 16 / 10; min-height: 420px; overflow: hidden; container-type: inline-size; }
-  .site { position: absolute; inset: 0; padding: clamp(18px, 4cqi, 40px); display: flex; flex-direction: column; gap: 3cqi; overflow: hidden; }
-  .site[hidden] { display: none; }
-  .site.is-active > * { animation: siteIn 700ms var(--ease-out) both; }
-  .site.is-active > *:nth-child(2) { animation-delay: 90ms; }
-  .site.is-active > *:nth-child(3) { animation-delay: 180ms; }
-  @keyframes siteIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-
-  .s-nav { display: flex; justify-content: space-between; align-items: center; font-size: clamp(11px, 1.6cqi, 15px); }
-  .s-nav b { letter-spacing: 0.04em; }
-  .s-call { font-weight: 700; }
-  .site h3 { font-size: clamp(24px, 5.6cqi, 54px); line-height: 1.02; letter-spacing: -0.02em; color: inherit; }
-  .s-hero { display: grid; gap: 1.6cqi; max-width: 60ch; position: relative; z-index: 1; }
-  .s-sub { font-size: clamp(12px, 1.8cqi, 17px); line-height: 1.5; max-width: 46ch; opacity: 0.85; }
-  .s-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
-  .s-btn, .s-ghost { font-weight: 700; font-size: clamp(12px, 1.6cqi, 15px); padding: 0.8em 1.2em; border-radius: 8px; }
-  .s-btn { position: relative; overflow: hidden; }
-  .s-btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgb(255 255 255 / 0.35) 50%, transparent 70%); transform: translateX(-120%); animation: shine 3.2s ease-in-out 1.2s infinite; }
-  @keyframes shine { 40%, 100% { transform: translateX(120%); } }
-
-  /* Tree */
-  /* Tree: mirrors rankintreeservice.com */
-  .tree { background: #f3efe4; color: #142a1d; padding-top: 0; }
-  .tree .s-nav {
-    margin: 0 calc(-1 * clamp(18px, 4cqi, 40px));
-    padding: 1.4cqi clamp(18px, 4cqi, 40px);
-    background: #1f3d2b; color: #fff;
-  }
-  .tree .s-nav b { display: inline-flex; align-items: center; gap: 0.5em; letter-spacing: 0; font-weight: 800; }
-  .tree .s-nav svg { width: 1.3em; height: 1.3em; color: #b9d3b0; }
-  .tree .s-call { color: #fff; }
-  .s-eyebrow { font-size: clamp(10px, 1.3cqi, 13px); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #3f6b47; }
-  .tree h3 { font-size: clamp(22px, 4.6cqi, 46px); max-width: 16ch; }
-  .tree .s-sub { color: #3d4c42; opacity: 1; }
-  .tree .s-btn { background: #c2410c; color: #fff; border-radius: 6px; }
-  .tree .s-ghost { border: 2px solid #142a1d; border-radius: 6px; }
-  .s-hills { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: auto; display: block; }
-  .s-hills .hb { fill: #c3d1b4; } .s-hills .hf { fill: #9fb68f; }
-  .s-hills .pb { fill: #7d9a72; } .s-hills .pf { fill: #4f7048; }
-  @media (prefers-reduced-motion: no-preference) {
-    /* Each pine grows from its own trunk base (origin set inline, in scene units) */
-    .tree.is-active .s-hills .pine { transform-box: view-box; animation: sapling 1.5s both; animation-delay: var(--d, 200ms); }
-  }
-  @keyframes sapling {
-    0% { transform: scale(0); animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); }
-    22% { transform: scale(0.3); animation-timing-function: linear; }
-    38% { transform: scale(0.32); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
-    100% { transform: scale(1); }
-  }
-  @keyframes sway { to { transform: translateY(4px) skewX(-2deg); } }
-
-  /* Chiro */
-  .chiro { background: linear-gradient(160deg, #fbf7f2, #efe4d8); color: #3b2a22; }
-  .chiro .s-nav b { letter-spacing: 0; font-weight: 800; } .chiro .s-nav b span { font-weight: 400; }
-  .chiro .s-call { background: #3b2a22; color: #fbf7f2; padding: 0.5em 0.9em; border-radius: 999px; }
-  .s-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 4cqi; align-items: center; flex: 1; }
-  .s-pill { justify-self: start; background: #e8c9ad; color: #5a3423; font-weight: 700; font-size: clamp(11px, 1.4cqi, 13px); padding: 0.45em 0.9em; border-radius: 999px; }
-  .chiro .s-btn { background: #b4583a; color: #fff; justify-self: start; }
-  /* Spine: vertebrae settle into line, then a warm relief glow runs down once */
-  .s-side { display: grid; grid-template-columns: auto 1fr; gap: 3cqi; align-items: center; }
-  .spine { position: relative; display: flex; flex-direction: column; align-items: center; gap: 0.7cqi; padding: 1cqi 0.6cqi; }
-  .spine i {
-    display: block; width: calc(5cqi * var(--w)); height: 2.3cqi; border-radius: 45% / 60%;
-    background: linear-gradient(180deg, #ecd3bb, #d8b392); box-shadow: inset 0 -2px 0 rgb(59 42 34 / 0.12);
-    position: relative;
-  }
-  .spine i::before, .spine i::after { content: ''; position: absolute; top: 30%; width: 22%; height: 40%; border-radius: 40%; background: #dcbb9c; }
-  .spine i::before { left: -16%; } .spine i::after { right: -16%; }
-  .spine::after {
-    content: ''; position: absolute; left: -30%; right: -30%; top: 0; height: 22%;
-    background: radial-gradient(closest-side, rgb(255 190 140 / 0.75), transparent);
-    opacity: 0; pointer-events: none;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .chiro.is-active .spine i {
-      animation: align 1000ms cubic-bezier(0.34, 1.3, 0.64, 1) both;
-      animation-delay: calc(700ms + var(--i) * 80ms);
-    }
-    .chiro.is-active .spine::after { animation: relief 1.3s ease-in-out 2.3s both; }
-  }
-  @keyframes align { from { transform: translateX(var(--x)) rotate(var(--r)); } to { transform: none; } }
-  @keyframes relief { 0% { opacity: 0; top: -10%; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; top: 88%; } }
-  .s-book { background: #fff; border-radius: 14px; padding: 2.4cqi; box-shadow: 0 20px 40px -20px rgb(59 42 34 / 0.35); display: grid; gap: 1.4cqi; font-size: clamp(11px, 1.4cqi, 14px); }
-  .s-book p { font-weight: 800; }
-  .slots { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .slots span { border: 1.5px solid #e2d4c6; border-radius: 8px; padding: 0.6em; text-align: center; font-weight: 600; }
-  .slots .gone { opacity: 0.35; text-decoration: line-through; }
-  .chiro.is-active .slots .pick { animation: pick 600ms var(--ease-out) 1.3s both; }
-  @keyframes pick { to { background: #b4583a; border-color: #b4583a; color: #fff; } }
-  .s-confirm { color: #2f6b3c; font-weight: 700; }
-  .chiro.is-active .s-confirm { animation: siteIn 500ms var(--ease-out) 1.8s both; }
-
-  /* BBQ */
-  .bbq { background: radial-gradient(120% 90% at 85% 110%, #5a1f0c 0%, #1b1411 55%); color: #f6ead9; }
-  .bbq .s-nav b { letter-spacing: 0.14em; } .bbq .s-nav b span { color: #ff8a3d; }
-  .bbq .s-call { color: #ffb37a; }
-  .bbq h3 { text-transform: uppercase; font-size: clamp(28px, 7cqi, 66px); }
-  .bbq h3 em { font-style: normal; color: #ff8a3d; }
-  .bbq .s-btn { background: #ff8a3d; color: #1b1411; }
-  .bbq .s-ghost { border: 2px solid rgb(246 234 217 / 0.5); }
-  .s-ticker { margin: auto calc(-1 * clamp(18px, 4cqi, 40px)) 0; border-block: 1px solid rgb(246 234 217 / 0.2); padding: 1.1cqi 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: clamp(11px, 1.5cqi, 14px); text-transform: uppercase; letter-spacing: 0.08em; position: relative; z-index: 1; }
-  .s-ticker div { display: inline-flex; gap: 40px; animation: tick 22s linear infinite; }
-  .s-ticker span::before { content: '●'; color: #ff8a3d; margin-right: 12px; font-size: 0.7em; vertical-align: middle; }
-  @keyframes tick { to { transform: translateX(-50%); } }
-  .embers i { position: absolute; bottom: -10px; width: 5px; height: 5px; border-radius: 50%; background: #ff9c4a; box-shadow: 0 0 10px 2px #ff6a1a; opacity: 0; animation: ember 5s ease-in infinite; }
-  .embers i:nth-child(1) { left: 62%; animation-delay: 0s; }
-  .embers i:nth-child(2) { left: 74%; animation-delay: 1.1s; }
-  .embers i:nth-child(3) { left: 83%; animation-delay: 2.3s; }
-  .embers i:nth-child(4) { left: 91%; animation-delay: 0.6s; }
-  .embers i:nth-child(5) { left: 69%; animation-delay: 3.2s; }
-  .embers i:nth-child(6) { left: 87%; animation-delay: 4s; }
-  @keyframes ember { 10% { opacity: 1; } 100% { opacity: 0; transform: translate(-30px, -320px) scale(0.4); } }
+  @media (max-width: 560px) { .stage { aspect-ratio: auto; min-height: 460px; } }
 
   .note { font-size: var(--step--1); color: var(--field-dim); max-width: 60ch; }
   .note a { color: var(--field-ink); text-underline-offset: 3px; }
+</style>
 
-  @container (max-width: 560px) {
-    .s-grid { grid-template-columns: 1fr; }
-    .s-book, .spine { display: none; }
-    .s-side { display: block; }
+<!-- Shared building blocks for every sample site (samples/*.astro add their own look). -->
+<style is:global>
+  :where(.showcase) .site { position: absolute; inset: 0; padding: clamp(18px, 4cqi, 40px); display: flex; flex-direction: column; gap: 3cqi; overflow: hidden; }
+  :where(.showcase) .site[hidden] { display: none; }
+  :where(.showcase) .site.is-active > * { animation: siteIn 700ms var(--ease-out) both; }
+  :where(.showcase) .site.is-active > *:nth-child(2) { animation-delay: 90ms; }
+  :where(.showcase) .site.is-active > *:nth-child(3) { animation-delay: 180ms; }
+  @keyframes siteIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+  :where(.showcase) .s-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: clamp(11px, 1.6cqi, 15px); }
+  :where(.showcase) .s-nav b { letter-spacing: 0.04em; }
+  :where(.showcase) .s-call { font-weight: 700; white-space: nowrap; }
+  :where(.showcase .site) h3 { font-size: clamp(24px, 5.6cqi, 54px); line-height: 1.02; letter-spacing: -0.02em; color: inherit; margin: 0; }
+  :where(.showcase) .s-hero { display: grid; gap: 1.6cqi; max-width: 60ch; position: relative; z-index: 1; }
+  :where(.showcase) .s-hero.half { max-width: 54%; }
+  :where(.showcase) .s-eyebrow { font-size: clamp(10px, 1.3cqi, 13px); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  :where(.showcase) .s-sub { font-size: clamp(12px, 1.8cqi, 17px); line-height: 1.5; max-width: 46ch; opacity: 0.85; margin: 0; }
+  :where(.showcase) .s-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
+  :where(.showcase) .s-btn, :where(.showcase) .s-ghost { font-weight: 700; font-size: clamp(12px, 1.6cqi, 15px); padding: 0.8em 1.2em; border-radius: 8px; }
+  :where(.showcase) .s-ghost { border: 2px solid currentColor; }
+  :where(.showcase) .s-btn { position: relative; overflow: hidden; }
+  :where(.showcase) .s-btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgb(255 255 255 / 0.35) 50%, transparent 70%); transform: translateX(-120%); animation: shine 3.2s ease-in-out 1.2s infinite; }
+  @keyframes shine { 40%, 100% { transform: translateX(120%); } }
+
+  /* Illustration slot on the right; positioned with insets (not transforms) so the
+     shared fade-in can animate it. Hidden when the frame is phone-narrow. */
+  :where(.showcase) .s-art { position: absolute; right: clamp(18px, 4cqi, 40px); top: 16%; bottom: 8%; width: 40%; display: grid; place-items: center; pointer-events: none; }
+  :where(.showcase) .s-art svg { width: 100%; height: 100%; overflow: visible; }
+  :where(.showcase) .draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
+  /* Narrow frames (phones): text on top, illustration centered underneath */
+  @container (max-width: 620px) {
+    :where(.showcase) .s-hero.half { max-width: 100%; }
+    :where(.showcase) .s-art { top: auto; bottom: 4%; left: 18%; right: 18%; width: auto; height: 38%; }
   }
-  @media (max-width: 560px) {
-    .stage { aspect-ratio: auto; min-height: 460px; }
-  }
+
   @media (prefers-reduced-motion: reduce) {
-    .showcase *, .showcase *::after { animation: none !important; }
-    .chiro .slots .pick { background: #b4583a; color: #fff; }
+    .showcase *, .showcase *::before, .showcase *::after { animation: none !important; }
   }
 </style>

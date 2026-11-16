@@ -1,0 +1,55 @@
+---
+interface Props { id: string; url: string; active?: boolean }
+const { id, url, active = false } = Astro.props;
+---
+<!-- Electrician (made-up): a wire draws itself to a bulb, which flickers on and glows -->
+<section class:list={['site', 'elec', { 'is-active': active }]} role="tabpanel" id={`panel-${id}`} aria-labelledby={`tab-${id}`} data-panel data-url-value={url} hidden={!active}>
+  <header class="s-nav"><b>COPPERLINE <span>ELECTRIC</span></b><span class="s-call">(601) 555-0118</span></header>
+  <div class="s-hero half">
+    <p class="s-eyebrow">Licensed · Bonded · Insured</p>
+    <h3>Lights out?<br /><em>We'll get you back on.</em></h3>
+    <p class="s-sub">Panel upgrades, generators, outlets and ceiling fans. Same-day service calls across the metro.</p>
+    <div class="s-ctas"><span class="s-btn">Book a service call</span><span class="s-ghost">Generator quotes</span></div>
+  </div>
+  <div class="s-art" aria-hidden="true">
+    <svg viewBox="0 0 240 240">
+      <defs>
+        <radialGradient id="elec-glow"><stop offset="0" stop-color="#ffd23f" stop-opacity="0.75" /><stop offset="1" stop-color="#ffd23f" stop-opacity="0" /></radialGradient>
+      </defs>
+      <circle class="glow" cx="150" cy="92" r="92" fill="url(#elec-glow)" />
+      <path class="wire draw" pathLength="1" d="M0 226 C 60 226, 70 170, 110 186 S 150 210, 150 158" fill="none" stroke="#d98b4a" stroke-width="5" stroke-linecap="round" />
+      <g class="rays" stroke="#ffd23f" stroke-width="5" stroke-linecap="round">
+        <line x1="150" y1="18" x2="150" y2="4" /><line x1="94" y1="40" x2="84" y2="30" /><line x1="206" y1="40" x2="216" y2="30" />
+        <line x1="74" y1="94" x2="60" y2="94" /><line x1="226" y1="94" x2="240" y2="94" />
+      </g>
+      <path class="bulb" d="M150 34 a52 52 0 0 1 30 94 c-6 5 -9 12 -9 20 h-42 c0 -8 -3 -15 -9 -20 a52 52 0 0 1 30 -94z" />
+      <rect x="129" y="150" width="42" height="9" rx="3" fill="#8a96a8" /><rect x="132" y="161" width="36" height="8" rx="3" fill="#8a96a8" />
+      <path d="M136 120 l8 -18 l6 12 l6 -12 l8 18" fill="none" stroke="#a8761c" stroke-width="3" stroke-linejoin="round" />
+    </svg>
+  </div>
+</section>
+
+<style>
+  .elec { background: radial-gradient(90% 80% at 80% 30%, #1b2d48, #0d1726 70%); color: #eef2f7; }
+  .elec .s-nav b span { font-weight: 400; color: #ffd23f; margin-left: 4px; }
+  .elec .s-eyebrow { color: #ffd23f; }
+  .elec h3 em { font-style: normal; color: #ffd23f; }
+  .elec .s-btn { background: #ffd23f; color: #0d1726; }
+  .elec .s-ghost { color: #eef2f7; border-color: rgb(238 242 247 / 0.45); }
+  .bulb { fill: #fff3c4; stroke: #ffd23f; stroke-width: 4; }
+  @media (prefers-reduced-motion: no-preference) {
+    .elec.is-active .wire { animation: elec-draw 1.1s ease-in-out 0.5s both; }
+    .elec.is-active .bulb { animation: elec-flicker 1s steps(1) 1.6s both; }
+    .elec.is-active .glow { animation: elec-glow 1.2s ease-out 2.2s both, elec-hum 2.4s ease-in-out 3.4s infinite alternate; }
+    .elec.is-active .rays { animation: elec-rays 600ms var(--ease-out) 2.3s both; }
+  }
+  @keyframes elec-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @keyframes elec-flicker {
+    0% { fill: #3a4558; stroke: #6b778a; } 15% { fill: #fff3c4; stroke: #ffd23f; } 25% { fill: #3a4558; stroke: #6b778a; }
+    45% { fill: #fff3c4; stroke: #ffd23f; } 55% { fill: #3a4558; stroke: #6b778a; } 70%, 100% { fill: #fff3c4; stroke: #ffd23f; }
+  }
+  @keyframes elec-glow { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
+  @keyframes elec-hum { to { opacity: 0.75; } }
+  @keyframes elec-rays { from { opacity: 0; } to { opacity: 1; } }
+  .glow { transform-box: fill-box; transform-origin: center; }
+</style>
