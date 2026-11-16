@@ -1,11 +1,11 @@
 ---
 /**
- * "What your site could look like" — three sample concepts for
- * fictional local businesses, rendered in CSS inside a browser frame.
+ * "What your site could look like" — Rankin Tree Service (a live site
+ * we built, rankintreeservice.com) plus two concepts for fictional businesses, rendered in CSS inside a browser frame.
  * Auto-rotates (pauses on hover/focus, off for reduced motion). Tabs are real buttons.
  */
 const concepts = [
-  { id: 'tree', tab: 'Tree service', url: 'cypresstreecare.example' },
+  { id: 'tree', tab: 'Tree service', url: 'rankintreeservice.com', live: true },
   { id: 'chiro', tab: 'Chiropractor', url: 'northsidechiro.example' },
   { id: 'bbq', tab: 'BBQ joint', url: 'hickoryandash.example' },
 ];
@@ -27,21 +27,21 @@ const concepts = [
     </div>
 
     <div class="stage">
-      <!-- 1 · Tree service -->
+      <!-- 1 · Tree service: Rankin Tree Service, a live site we built -->
       <section class="site tree is-active" role="tabpanel" id="panel-tree" aria-labelledby="tab-tree" data-panel data-url-value={concepts[0].url}>
-        <header class="s-nav"><b>CYPRESS<span>TREE CARE</span></b><span class="s-call">Call (601) 555-0142</span></header>
+        <header class="s-nav"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l5 7h-3l4 6h-3.5l3.5 5H6l3.5-5H6l4-6H7z" fill="currentColor"/><rect x="11" y="19" width="2" height="3" fill="currentColor"/></svg>Rankin Tree Service</b><span class="s-call">(601) 557-2781</span></header>
         <div class="s-hero">
-          <p class="s-live"><i></i> Crews out today in Madison &amp; Ridgeland</p>
-          <h3>Storm damage?<br />We're there by morning.</h3>
-          <p class="s-sub">Removal, trimming and stump grinding. Licensed, insured, and we clean up like we were never there.</p>
-          <div class="s-ctas"><span class="s-btn">Get a free quote</span><span class="s-ghost">See recent jobs</span></div>
+          <p class="s-eyebrow">Free estimates across Rankin County</p>
+          <h3>Tree Service in Rankin County, MS</h3>
+          <p class="s-sub">Tree removal, trimming, stump grinding, and storm cleanup for homes in Brandon, Pearl, Flowood, and the rest of Rankin County.</p>
+          <div class="s-ctas"><span class="s-btn">Call (601) 557-2781</span><span class="s-ghost">Request a free quote</span></div>
         </div>
-        <ul class="s-strip">
-          <li><b>4.9★</b> Google reviews</li><li><b>Same-week</b> estimates</li><li><b>Text us</b> a photo</li>
-        </ul>
-        <svg class="s-canopy" viewBox="0 0 400 160" aria-hidden="true">
-          <path d="M0 160 C 40 90, 90 120, 120 70 S 200 30, 230 80 S 330 40, 400 100 L400 160Z" />
-          <path class="b" d="M0 160 C 60 120, 120 140, 170 110 S 280 90, 320 120 S 380 120, 400 130 L400 160Z" />
+        <svg class="s-hills" viewBox="0 72 400 98" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+          <defs><symbol id="sp-pine" viewBox="0 0 40 100" preserveAspectRatio="none"><rect x="18" y="84" width="4" height="16" /><polygon points="20,0 31,24 26,24 35,48 29,48 40,82 0,82 11,48 5,48 14,24 9,24" /></symbol></defs>
+          <path class="hb" d="M0 170 V114 C 60 100 120 98 180 106 S 300 120 400 104 V170 Z" />
+          <g class="pb"><use href="#sp-pine" x="31.2" y="80.0" width="17.6" height="44.0" /><use href="#sp-pine" x="59.2" y="92.0" width="13.6" height="34.0" /><use href="#sp-pine" x="242.4" y="84.0" width="15.2" height="38.0" /><use href="#sp-pine" x="270.0" y="95.0" width="12.0" height="30.0" /><use href="#sp-pine" x="343.6" y="78.0" width="16.8" height="42.0" /></g>
+          <path class="hf" d="M0 170 V140 C 90 128 170 132 250 138 S 360 144 400 134 V170 Z" />
+          <g class="pf"><use href="#sp-pine" x="85.6" y="102.0" width="20.8" height="52.0" /><use href="#sp-pine" x="116.4" y="119.0" width="15.2" height="38.0" /><use href="#sp-pine" x="191.2" y="114.0" width="17.6" height="44.0" /><use href="#sp-pine" x="294.8" y="98.0" width="22.4" height="56.0" /><use href="#sp-pine" x="330.0" y="118.0" width="16.0" height="40.0" /></g>
         </svg>
       </section>
 
@@ -80,7 +80,7 @@ const concepts = [
       </section>
     </div>
   </div>
-  <p class="note">Sample concepts for made-up businesses. Your site gets built around your customers, your voice, and what you want people to do next.</p>
+  <p class="note">Tree service is <a href="https://rankintreeservice.com" target="_blank" rel="noopener">Rankin Tree Service</a>, a live site we built. The chiropractor and BBQ joint are concepts for made-up businesses. Your site gets built around your customers, your voice, and what you want people to do next.</p>
 </div>
 
 <style>
@@ -96,7 +96,7 @@ const concepts = [
   }
   .tabs button[aria-selected='true'] { color: var(--field); background: var(--field-ink); border-color: var(--field-ink); }
   .tabs button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-  .bar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; }
+  .bar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: var(--graphite); /* sits on the chalk pill: mustard is too faint there */ transform: scaleX(0); transform-origin: left; }
   .showcase.is-playing button[aria-selected='true'] .bar { animation: progress var(--rotate, 6s) linear forwards; }
   .showcase.is-paused button[aria-selected='true'] .bar { animation-play-state: paused; }
   @keyframes progress { to { transform: scaleX(1); } }
@@ -131,19 +131,36 @@ const concepts = [
   @keyframes shine { 40%, 100% { transform: translateX(120%); } }
 
   /* Tree */
-  .tree { background: #f3efe4; color: #1e3326; }
-  .tree .s-nav b span { font-weight: 500; margin-left: 6px; color: #4d6b52; }
-  .tree .s-call { color: #1e3326; }
-  .s-live { display: inline-flex; align-items: center; gap: 8px; font-size: clamp(11px, 1.5cqi, 14px); font-weight: 600; color: #2f6b3c; }
-  .s-live i { width: 9px; height: 9px; border-radius: 50%; background: #3fa45a; box-shadow: 0 0 0 0 rgb(63 164 90 / 0.6); animation: ping 1.8s ease-out infinite; }
-  @keyframes ping { to { box-shadow: 0 0 0 10px rgb(63 164 90 / 0); } }
-  .tree .s-btn { background: #1e3326; color: #f3efe4; }
-  .tree .s-ghost { border: 2px solid #1e3326; }
-  .s-strip { list-style: none; margin: auto 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: clamp(11px, 1.5cqi, 14px); position: relative; z-index: 1; }
-  .s-strip b { margin-right: 4px; }
-  .s-canopy { position: absolute; right: -4%; bottom: -2%; width: 70%; opacity: 0.9; }
-  .s-canopy path { fill: #b9c9a9; } .s-canopy .b { fill: #93ad84; }
-  .tree.is-active .s-canopy { animation: sway 6s ease-in-out infinite alternate; transform-origin: bottom; }
+  /* Tree: mirrors rankintreeservice.com */
+  .tree { background: #f3efe4; color: #142a1d; padding-top: 0; }
+  .tree .s-nav {
+    margin: 0 calc(-1 * clamp(18px, 4cqi, 40px));
+    padding: 1.4cqi clamp(18px, 4cqi, 40px);
+    background: #1f3d2b; color: #fff;
+  }
+  .tree .s-nav b { display: inline-flex; align-items: center; gap: 0.5em; letter-spacing: 0; font-weight: 800; }
+  .tree .s-nav svg { width: 1.3em; height: 1.3em; color: #b9d3b0; }
+  .tree .s-call { color: #fff; }
+  .s-eyebrow { font-size: clamp(10px, 1.3cqi, 13px); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #3f6b47; }
+  .tree h3 { font-size: clamp(22px, 4.6cqi, 46px); max-width: 16ch; }
+  .tree .s-sub { color: #3d4c42; opacity: 1; }
+  .tree .s-btn { background: #c2410c; color: #fff; border-radius: 6px; }
+  .tree .s-ghost { border: 2px solid #142a1d; border-radius: 6px; }
+  .s-hills { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: auto; display: block; }
+  .s-hills .hb { fill: #c3d1b4; } .s-hills .hf { fill: #9fb68f; }
+  .s-hills .pb { fill: #7d9a72; } .s-hills .pf { fill: #4f7048; }
+  @media (prefers-reduced-motion: no-preference) {
+    .tree.is-active .s-hills use { transform-box: fill-box; transform-origin: 50% 100%; animation: sapling 1.5s both; }
+    .tree.is-active .s-hills .pb use:nth-child(2n) { animation-delay: 120ms; }
+    .tree.is-active .s-hills .pf use { animation-delay: 260ms; }
+    .tree.is-active .s-hills .pf use:nth-child(2n) { animation-delay: 380ms; }
+  }
+  @keyframes sapling {
+    0% { transform: scale(0); animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); }
+    22% { transform: scale(0.3); animation-timing-function: linear; }
+    38% { transform: scale(0.32); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+    100% { transform: scale(1); }
+  }
   @keyframes sway { to { transform: translateY(4px) skewX(-2deg); } }
 
   /* Chiro */
@@ -185,6 +202,7 @@ const concepts = [
   @keyframes ember { 10% { opacity: 1; } 100% { opacity: 0; transform: translate(-30px, -320px) scale(0.4); } }
 
   .note { font-size: var(--step--1); color: var(--field-dim); max-width: 60ch; }
+  .note a { color: var(--field-ink); text-underline-offset: 3px; }
 
   @container (max-width: 560px) {
     .s-grid { grid-template-columns: 1fr; }
