@@ -3,7 +3,7 @@
   lang="en"
   data-resolution="portrait"
   data-composition-variables='[
-    {"id":"site","type":"string","label":"Sample site (tree | chiro | bbq)","default":"tree"}
+    {"id":"site","type":"string","label":"Sample site (tree | chiro | food)","default":"tree"}
   ]'
 >
   <head>
@@ -95,17 +95,19 @@
       .slots .gone { opacity: 0.35; text-decoration: line-through; }
       .confirm { font-weight: 700; font-size: 18px; color: #2f6b3c; }
 
-      /* BBQ */
-      .bbq { background: radial-gradient(120% 90% at 85% 110%, #5a1f0c 0%, #1b1411 55%); color: #f6ead9; }
-      .bbq .s-nav b { letter-spacing: 0.14em; } .bbq .s-nav b span { color: #ff8a3d; }
-      .bbq .s-nav .call { color: #ffb37a; }
-      .bbq .s-hero h3 { font-size: 76px; }
-      .bbq .s-hero h3 em { font-style: normal; color: #ff8a3d; }
-      .bbq .s-btn { background: #ff8a3d; color: #1b1411; }
-      .ticker { position: absolute; left: 0; right: 0; bottom: 40px; border-block: 1px solid rgb(246 234 217 / 0.2); padding: 18px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 20px; }
+      /* Restaurant: covered plate, lid lifts, steam rises; menu scrolls along the bottom */
+      .food { background: radial-gradient(90% 90% at 80% 40%, #fff7ea, #f6ead6 70%); color: #2d1d14; }
+      .food .s-nav b span { font-weight: 400; margin-left: 8px; }
+      .food .s-nav .call { background: #2d1d14; color: #fff7ea; padding: 10px 18px; border-radius: 999px; font-size: 17px; }
+      .food .s-hero { max-width: 520px; }
+      .food .s-hero h3 { font-size: 68px; }
+      .food .s-sub { max-width: 470px; }
+      .food .eyebrow-s { font-weight: 700; font-size: 17px; letter-spacing: 0.06em; text-transform: uppercase; color: #b8361e; }
+      .food .s-btn { background: #b8361e; color: #fff; }
+      .plate { position: absolute; right: 30px; top: 150px; width: 380px; height: 350px; }
+      .ticker { position: absolute; left: 0; right: 0; bottom: 0; background: #2d1d14; color: #fff7ea; padding: 18px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 20px; text-transform: uppercase; letter-spacing: 0.08em; }
       .ticker-row { display: inline-flex; gap: 48px; padding-left: 48px; }
-      .ticker-row span::before { content: '●'; color: #ff8a3d; margin-right: 16px; font-size: 0.7em; vertical-align: middle; }
-      .glow { position: absolute; width: 10px; height: 10px; border-radius: 50%; background: #ff9c4a; box-shadow: 0 0 14px 4px #ff6a1a; opacity: 0; }
+      .ticker-row span::before { content: '●'; color: #e9b44c; margin-right: 16px; font-size: 0.7em; vertical-align: middle; }
 
       /* Cursor */
       .cursor { position: absolute; left: 0; top: 0; width: 40px; height: 40px; z-index: 20; filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.35)); }
@@ -223,25 +225,41 @@
           noticeBody: 'Laser therapy consult · new patient',
           caption: 'Patients pick their own time. Your front desk breathes.',
         },
-        bbq: {
-          label: 'BBQ joint',
-          url: 'hickoryandash.example',
-          cls: 'bbq',
+        food: {
+          label: 'Restaurant',
+          url: 'porchlightkitchen.example',
+          cls: 'food',
           html: `
-            <header class="s-nav"><b>HICKORY <span>&amp;</span> ASH</b><span class="call">Open 11 till sold out</span></header>
+            <header class="s-nav"><b>Porch Light <span>Kitchen</span></b><span class="call">Open today 11–9</span></header>
             <div class="s-hero">
-              <h3 class="a"><span class="ln">Smoked low.</span><span class="ln"><em>Gone by two.</em></span></h3>
-              <p class="s-sub a">Order ahead and skip the line. We'll text you when it's on the counter.</p>
-              <div class="s-ctas a"><span class="s-btn" id="target">Order pickup</span><span class="s-ghost">Cater an event</span></div>
+              <p class="eyebrow-s a">Lunch · Dinner · Catering</p>
+              <h3><span class="ln">Order ahead.</span><span class="ln">Skip the line.</span></h3>
+              <p class="s-sub a">Southern plates made from scratch. Order online for pickup, or book catering for your next event.</p>
+              <div class="s-ctas a"><span class="s-btn" id="target">Order online</span><span class="s-ghost">See the menu</span></div>
             </div>
-            <div class="ticker"><div class="ticker-row" id="ticker">
-              <span>Brisket ½ lb $14</span><span>Pulled pork plate $12</span><span>Rib tips $11</span><span>Smoked chicken $10</span><span>Banana pudding $5</span>
-              <span>Brisket ½ lb $14</span><span>Pulled pork plate $12</span><span>Rib tips $11</span><span>Smoked chicken $10</span><span>Banana pudding $5</span>
-            </div></div>
-            <i class="glow" style="left:620px;top:560px"></i><i class="glow" style="left:760px;top:600px"></i>
-            <i class="glow" style="left:840px;top:540px"></i><i class="glow" style="left:700px;top:620px"></i>`,
+            <svg class="plate" viewBox="0 0 260 240" aria-hidden="true">
+              <rect x="0" y="168" width="260" height="10" rx="5" fill="#e3d3bb" />
+              <ellipse cx="130" cy="160" rx="104" ry="18" fill="#efe4d3" />
+              <ellipse cx="130" cy="156" rx="96" ry="15" fill="#ffffff" stroke="#e0d2bd" stroke-width="2" />
+              <ellipse cx="108" cy="146" rx="34" ry="12" fill="#e9b44c" /><ellipse cx="104" cy="141" rx="24" ry="8" fill="#f2c96a" />
+              <ellipse cx="156" cy="146" rx="26" ry="10" fill="#5f8f45" />
+              <circle cx="148" cy="141" r="6" fill="#7aac56" /><circle cx="160" cy="139" r="7" fill="#6c9f4c" /><circle cx="168" cy="144" r="5" fill="#7aac56" />
+              <circle cx="128" cy="150" r="7" fill="#c8452c" /><circle cx="133" cy="146" r="4" fill="#e05c40" />
+              <g fill="none" stroke="#b9a891" stroke-width="3.5" stroke-linecap="round">
+                <path class="steam" pathLength="1" stroke-dasharray="1" d="M104 128 c -10 -14, 10 -22, 0 -38 s 8 -22, 0 -34" />
+                <path class="steam" pathLength="1" stroke-dasharray="1" d="M130 126 c -10 -14, 10 -22, 0 -40 s 8 -22, 0 -34" />
+                <path class="steam" pathLength="1" stroke-dasharray="1" d="M156 128 c -10 -14, 10 -22, 0 -38 s 8 -22, 0 -34" />
+              </g>
+              <g id="lid">
+                <path d="M44 150 a86 76 0 0 1 172 0 z" fill="#d7dbe0" />
+                <path d="M58 140 a76 64 0 0 1 60 -58" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0.7" />
+                <rect x="38" y="146" width="184" height="8" rx="4" fill="#b8bec6" />
+                <circle cx="130" cy="70" r="9" fill="#b8bec6" />
+              </g>
+            </svg>
+            <div class="ticker"><div class="ticker-row" id="ticker"><span>Chicken &amp; waffles $14</span><span>Shrimp &amp; grits $16</span><span>Meat &amp; three $13</span><span>Fried catfish plate $15</span><span>Peach cobbler $6</span><span>Chicken &amp; waffles $14</span><span>Shrimp &amp; grits $16</span><span>Meat &amp; three $13</span><span>Fried catfish plate $15</span><span>Peach cobbler $6</span></div></div>`,
           noticeTitle: 'Order #214 · pickup 12:15',
-          noticeBody: '2 brisket plates, banana pudding · paid',
+          noticeBody: 'Chicken & waffles x2, peach cobbler · paid',
           caption: 'Orders come in before the line forms.',
         },
       };
@@ -278,9 +296,14 @@
       tl.fromTo('#browser', { scale: 1.035 }, { scale: 1, duration: 2.2, ease: 'power2.out' }, 0);
       tl.fromTo('#site .a:not(h3)', { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.14 }, 0.3);
       if (key === 'tree') tl.fromTo('#canopy', { yPercent: 40 }, { yPercent: 0, duration: 1.4 }, 0.9);
-      if (key === 'bbq') {
+      if (key === 'food') {
         tl.fromTo('#ticker', { x: 0 }, { x: -760, duration: 8.2, ease: 'none' }, 0);
-        tl.fromTo('#site .glow', { opacity: 0, y: 0 }, { opacity: 0.9, y: -220, duration: 3.2, stagger: 0.55, ease: 'none', repeat: 1 }, 0.8);
+        // lid lifts off the plate, then steam rises (twice)
+        tl.to('#lid', { y: -14, rotation: -3, svgOrigin: '212 150', duration: 0.4, ease: 'power2.out' }, 0.9);
+        tl.to('#lid', { x: 70, y: -60, rotation: 28, opacity: 0, svgOrigin: '212 150', duration: 0.7, ease: 'power2.in' }, 1.3);
+        tl.fromTo('#site .steam', { strokeDashoffset: 1, opacity: 0, y: 6 }, { strokeDashoffset: 0, opacity: 0.9, y: 0, duration: 1.1, stagger: 0.25, ease: 'sine.inOut' }, 1.8);
+        tl.to('#site .steam', { opacity: 0, y: -16, duration: 0.9, stagger: 0.25, ease: 'sine.in' }, 3.2);
+        tl.fromTo('#site .steam', { strokeDashoffset: 1, opacity: 0, y: 6 }, { strokeDashoffset: 0, opacity: 0.9, y: 0, duration: 1.1, stagger: 0.25, ease: 'sine.inOut', immediateRender: false }, 4.4);
       }
 
       // 2.4 – visitor moves to the main button and taps it
