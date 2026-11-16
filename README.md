@@ -36,8 +36,21 @@ Everything animates with CSS; JS only toggles classes. All motion respects `pref
 
 ## To do
 
-- [ ] Real inbox (currently `hello@southernplaybook.com` in `index.astro`)
 - [ ] Final secondary font + accent
 - [ ] `og:image` social card
 - [ ] Replace FPO slots with real photos: pass `src` + `alt` to `<Fpo>` (labels describe each shot)
-- [ ] Hosting (Netlify, Vercel or Cloudflare Pages all work — point the build at `dist/`)
+
+## Deploy
+
+GitHub Pages, same setup as rankintreeservice.com. `.github/workflows/deploy.yml` builds and publishes on every push to `main`. `public/CNAME` sets the custom domain; `public/robots.txt` points Google at the sitemap (`/sitemap-index.xml`, generated at build).
+
+DNS at Porkbun (website only — never touch the Google Workspace MX/TXT/CNAME records):
+
+| Type | Host | Answer |
+|---|---|---|
+| A | (blank) | 185.199.108.153 |
+| A | (blank) | 185.199.109.153 |
+| A | (blank) | 185.199.110.153 |
+| A | (blank) | 185.199.111.153 |
+| CNAME | www | robsrevues.github.io |
+
