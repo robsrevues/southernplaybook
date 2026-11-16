@@ -9,7 +9,7 @@
 
   OPEN (change here; nothing else needs to move):
     - Secondary / body typeface   → --font-body, --font-label
-    - Accent color                → --accent (placeholder, not approved — keep it rare)
+    - Accent colors               → --cta (clay) and --accent (mustard); see roles below
     - Derived neutrals            → --field-sunk / --field-raised / --field-dim
 */
 
@@ -29,8 +29,15 @@
   --field-line: rgb(245 245 242 / 0.1);
   --field-line-strong: rgb(245 245 242 / 0.24);
 
-  /* Accent — OPEN / placeholder (red clay). Used only on the play routes + focus ring. */
-  --accent: #d0684e;
+  /* Color roles — keep them rare:
+     - Clay (--cta): filled CTA buttons on dark backgrounds. Nothing else.
+       On light surfaces buttons stay graphite.
+     - Mustard (--accent): small markers only — play-diagram targets, step
+       numbers, quote marks, bullet chips, progress bars.
+     - Neither ever touches the logo, headlines or large areas. */
+  --cta: #b8553c;      /* clay — white text passes 4.8:1 */
+  --cta-ink: #ffffff;
+  --accent: #d9a441;   /* mustard — 6.9:1 on graphite */
 
   /* Type */
   --font-brand: 'Public Sans Variable', 'Public Sans', system-ui, sans-serif; /* locked */

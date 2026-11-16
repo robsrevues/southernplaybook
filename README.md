@@ -28,7 +28,9 @@ npm run build     # static output in dist/
 
 **Locked:** SP notebook mark (exact Figma vector), Public Sans ExtraBold wordmark, core neutrals graphite `#242424` / chalk `#F5F5F2` / silver `#BDBDB8`, one-ink logo.
 
-**Open:** secondary/body typeface and accent color. Both are single tokens in `tokens.css`. The current accent (red clay `#D0684E`) is a placeholder and only appears on the hero play routes, the proof dots and the focus ring.
+**Accents:** clay `#B8553C` for filled CTA buttons on dark backgrounds only (buttons on light surfaces stay graphite); mustard `#D9A441` for small markers only (play-diagram targets, step numbers, quote marks, bullet chips, progress bars). Neither goes on the logo, headlines or large areas.
+
+**Open:** secondary/body typeface (`--font-body` in `tokens.css`).
 
 ## Motion
 

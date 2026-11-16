@@ -49,8 +49,8 @@ img, svg { display: block; max-width: 100%; }
 }
 
 .btn {
-  --bg: var(--field-ink);
-  --fg: var(--field);
+  --bg: var(--cta);
+  --fg: var(--cta-ink);
   display: inline-flex;
   align-items: center;
   gap: 0.6em;
@@ -64,7 +64,7 @@ img, svg { display: block; max-width: 100%; }
   transition: transform 200ms var(--ease-out), background 200ms, color 200ms;
 }
 .btn:hover { transform: translateY(-2px); }
-.btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.btn:focus-visible { outline: 3px solid var(--field-ink); outline-offset: 3px; }
 .btn--ghost { --bg: transparent; --fg: var(--field-ink); border-color: var(--field-line-strong); }
 .btn--ghost:hover { border-color: var(--field-ink); }
 .btn svg { width: 1em; height: 1em; transition: transform 200ms var(--ease-out); }
